@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="SkaimooMac5/App.axaml" value="SkaimooMac5/SkaimooMac5.csproj" />
+        <entry key="SkaimooMac5/Views/MainWindow.axaml" value="SkaimooMac5/SkaimooMac5.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

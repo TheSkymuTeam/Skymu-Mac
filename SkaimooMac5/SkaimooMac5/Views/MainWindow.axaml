@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SkaimooMac5.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SkaimooMac5.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        RequestedThemeVariant="Light"
+        Title="Skype">
+        <Window.MaxWidth>720</Window.MaxWidth> <Window.MaxHeight>420</Window.MaxHeight>
+        <Window.MinWidth>720</Window.MinWidth> <Window.MinHeight>420</Window.MinHeight>
+        <Window.Background><ImageBrush Source="/Assets/SignUpBackground1.png"/></Window.Background>
+    <StackPanel>
+        <Image Source="/Assets/SignUpLogo.png"
+               MaxWidth="175"
+               VerticalAlignment="Top"
+               Margin="55"
+               HorizontalAlignment="Right"/>
+        <TextBlock>
+            <FontFamily>Arial</FontFamily>
+            <FontStyle>Oblique</FontStyle>
+        </TextBlock> 
+    </StackPanel>
+        <Design.DataContext>
+            <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+
+</Window>
