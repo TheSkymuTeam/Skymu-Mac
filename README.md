@@ -1,6 +1,6 @@
 # Skymu:Mac
 
-yes - zech felms
+***To anybody looking for the original Avalonia Skymu:Mac, check out the `main` branch. This is `xamarin` branch.
 
 ## Special compile fix, for Rider 2019?
 
