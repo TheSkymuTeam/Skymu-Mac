@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
+            <connections>
+                <outlet property="window" destination="2" id="6"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" tabbingIdentifier="MainWindow" toolbarStyle="expanded" id="2" customClass="MainWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="131" y="74" width="1000" height="750"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2880" height="1777"/>
+            <value key="minSize" type="size" width="560" height="580"/>
+            <view key="contentView" id="3">
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="750"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="MainWindowSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-cG-sSv" userLabel="Sidebar Splitter" customClass="SeanSplitter">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="750"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView id="YoB-gd-6Iy">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="750"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bQk-b4-5Dq">
+                                        <rect key="frame" x="110" y="358" width="81" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yxb-Uz-RmS">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bQk-b4-5Dq" firstAttribute="centerX" secondItem="YoB-gd-6Iy" secondAttribute="centerX" id="7i4-xz-XV7"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="Ev5-UL-g0Q"/>
+                                    <constraint firstItem="bQk-b4-5Dq" firstAttribute="centerY" secondItem="YoB-gd-6Iy" secondAttribute="centerY" id="t8p-w2-SuN"/>
+                                </constraints>
+                            </customView>
+                            <customView id="T84-XP-YDu">
+                                <rect key="frame" x="309" y="0.0" width="691" height="750"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ngy-i1-orl">
+                                        <rect key="frame" x="283" y="363" width="125" height="23"/>
+                                        <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dwu-pO-GQD">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Ngy-i1-orl" firstAttribute="centerX" secondItem="T84-XP-YDu" secondAttribute="centerX" id="HIf-Vh-j5b"/>
+                                    <constraint firstItem="Ngy-i1-orl" firstAttribute="centerY" secondItem="T84-XP-YDu" secondAttribute="centerY" id="K67-1j-DwO"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <holdingPriorities>
+                            <real value="490"/>
+                            <real value="250"/>
+                        </holdingPriorities>
+                    </splitView>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="73693BFD-BF57-4D44-9A4C-A4144563AA08" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="2AT-1d-O6T">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="E3AFBA1F-5C3D-411E-9600-0D1E3D5DCCD2" label="" paletteLabel="New" image="ToolbarNewButtonTemplate" id="c3E-su-aIC" userLabel="New">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="25"/>
+                        <size key="maxSize" width="40" height="25"/>
+                        <button key="view" verticalHuggingPriority="750" id="DfK-Ch-kkn">
+                            <rect key="frame" x="0.0" y="14" width="40" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ToolbarNewButtonTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y0v-ix-yAF">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="E6E42773-5E0E-479A-868A-825543FA8061" label="" paletteLabel="Search" sizingBehavior="auto" id="Wcd-SG-m6c" userLabel="Search">
+                        <nil key="toolTip"/>
+                        <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="dCD-WY-VNu">
+                            <rect key="frame" x="0.0" y="14" width="275" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="SOl-vl-Vir">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </searchFieldCell>
+                        </searchField>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EDB58BC8-5FA9-4506-89B0-A21244EE672E" label="" paletteLabel="Dialpad" image="ToolbarDialpadButtonTemplate" id="rHM-gD-Utx" userLabel="Dialpad">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="23"/>
+                        <size key="maxSize" width="40" height="23"/>
+                        <button key="view" verticalHuggingPriority="750" id="80S-vi-GDx">
+                            <rect key="frame" x="4" y="14" width="40" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ToolbarDialpadButtonTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k5e-hV-gga">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="c4q-Pc-cL4"/>
+                    <toolbarItem implicitItemIdentifier="4F872E3A-3522-456F-9DB4-58E502D31B0A" label="Custom View" paletteLabel="Custom View" tag="-1" id="Pxh-PV-Q4E" userLabel="Self Info Root View">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="70" height="35"/>
+                        <size key="maxSize" width="50000" height="35"/>
+                        <customView key="view" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-ey-2jM">
+                            <rect key="frame" x="0.0" y="0.0" width="163" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="b2d-CP-dXY"/>
+                            </constraints>
+                        </customView>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Pxh-PV-Q4E"/>
+                    <toolbarItem reference="c4q-Pc-cL4"/>
+                    <toolbarItem reference="c3E-su-aIC"/>
+                    <toolbarItem reference="rHM-gD-Utx"/>
+                    <toolbarItem reference="Wcd-SG-m6c"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="MainView" destination="T84-XP-YDu" id="gsH-Pa-9U5"/>
+                <outlet property="SIdebarSplitter" destination="9sE-cG-sSv" id="PQa-QV-2h9"/>
+                <outlet property="SelfInfoRootView" destination="Pxh-PV-Q4E" id="Pi0-uG-D9K"/>
+                <outlet property="SelfInfoView" destination="qP5-7w-VGY" id="ETE-Y5-D8e"/>
+                <outlet property="Sidebar" destination="YoB-gd-6Iy" id="tkX-9d-7tz"/>
+            </connections>
+            <point key="canvasLocation" x="197" y="78"/>
+        </window>
+        <stackView distribution="fill" orientation="horizontal" alignment="bottom" spacing="1" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qP5-7w-VGY" userLabel="SelfInfoView">
+            <rect key="frame" x="0.0" y="0.0" width="182" height="35"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="YBF-04-nfl">
+                    <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="3zF-fJ-PT1"/>
+                        <constraint firstAttribute="height" constant="35" id="P7D-sk-PIQ"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SkypeSean" id="Bw8-ds-A1N"/>
+                </imageView>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="1" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eBN-HK-Jgg">
+                    <rect key="frame" x="36" y="0.0" width="70" height="35"/>
+                    <subviews>
+                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="998" translatesAutoresizingMaskIntoConstraints="NO" id="krU-TC-Z5U" userLabel="Username" customClass="SkyTextButton">
+                            <rect key="frame" x="0.0" y="19" width="70" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="16" id="wFY-sF-2Vb"/>
+                            </constraints>
+                            <buttonCell key="cell" type="inline" title="Username" bezelStyle="inline" alignment="center" lineBreakMode="truncatingTail" inset="2" id="hQE-Fl-B35">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                        </button>
+                        <button identifier="ButtonTitle_AddCredit" horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="997" translatesAutoresizingMaskIntoConstraints="NO" id="YrD-Op-bxX" userLabel="ButtonTitle_AddCredit" customClass="SkyTextButton">
+                            <rect key="frame" x="0.0" y="0.0" width="70" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="16" id="rBd-8g-xDS"/>
+                            </constraints>
+                            <buttonCell key="cell" type="inline" title="Add credit" bezelStyle="inline" alignment="center" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="b5B-h1-aSZ">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="systemLight" size="11"/>
+                            </buttonCell>
+                            <attributedString key="userComments">
+                                <fragment content="ButtonTitle_AddCredit"/>
+                            </attributedString>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="krU-TC-Z5U" firstAttribute="top" secondItem="eBN-HK-Jgg" secondAttribute="top" id="0FY-lK-g0q"/>
+                        <constraint firstAttribute="bottom" secondItem="YrD-Op-bxX" secondAttribute="bottom" id="hzC-QB-x0d"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="j0k-2A-Uxe"/>
+                        <constraint firstAttribute="height" constant="35" id="rVj-1I-xWK"/>
+                    </constraints>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+                <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="999" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="DYh-tY-H2d" customClass="SkyTextButton">
+                    <rect key="frame" x="107" y="0.0" width="74" height="14"/>
+                    <buttonCell key="cell" type="inline" title="Hello world!" bezelStyle="inline" alignment="center" lineBreakMode="truncatingTail" inset="2" id="Usz-18-AhX">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="systemLight" size="11"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="height" constant="35" id="z1N-er-aRi"/>
+            </constraints>
+            <visibilityPriorities>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+            </visibilityPriorities>
+            <customSpacing>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+            </customSpacing>
+            <point key="canvasLocation" x="-212" y="-436"/>
+        </stackView>
+    </objects>
+    <resources>
+        <image name="SkypeSean" width="512" height="512"/>
+        <image name="ToolbarDialpadButtonTemplate" width="16" height="16"/>
+        <image name="ToolbarNewButtonTemplate" width="16" height="16"/>
+    </resources>
+</document>
