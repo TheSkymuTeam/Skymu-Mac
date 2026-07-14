@@ -887,7 +887,7 @@ namespace Skymu.ViewModels
             if (Settings.InformDND != true)
                 Window.InvokeOnMainThread(() =>
                 {
-                    var alert = new NSAlert()
+                    var alert = new NSAlert
                     {
                         MessageText = Universal.Lang["sINFORM_DND_TITLE"],
                         InformativeText = Universal.Lang["sINFORM_DND"],

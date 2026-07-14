@@ -1,5 +1,5 @@
 /*==========================================================*/
-// Copyright © The Skymu Team and other contributors.
+// Copyright ï¿½ The Skymu Team and other contributors.
 // For any inquiries or concerns, email contact@skymu.app.
 /*==========================================================*/
 // Modification or redistribution of this code is governed
@@ -97,12 +97,12 @@ namespace Skymu
     public class ServerChannelHelper
     {
         public static ObservableCollection<object> GroupByCategory(
-            ServerChannel[] channels,
+            List<ServerChannel> channels,
             Dictionary<string, string> categoryMap
         )
         {
             var result = new ObservableCollection<object>();
-            if (channels == null || channels.Length == 0)
+            if (channels == null || channels.Count == 0)
                 return result;
 
             var uncategorized = channels

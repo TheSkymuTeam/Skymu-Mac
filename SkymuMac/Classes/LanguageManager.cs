@@ -28,6 +28,7 @@ namespace Skymu
         }
         public string Get(string key)
         {
+            return key;
             var value = NSBundle.FromPath(
                 Path.Combine(NSBundle.MainBundle.ResourcePath, NSLocale.CurrentLocale.LanguageCode + ".lproj")).LocalizedString(key, key, "Localizable");
 
@@ -43,7 +44,7 @@ namespace Skymu
             value = value.Replace("%%", "%");
 
             int i = 0;
-            value = Regex.Replace(value, "%[dfs]", _ => "{" + i++ + "}");
+            value = Regex.Replace(value, "%[dfs]", _ => "{" + i++.ToString() + "}");
 
             return string.Format(value, args);
         }

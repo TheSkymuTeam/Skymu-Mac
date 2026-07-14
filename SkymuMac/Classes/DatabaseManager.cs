@@ -120,7 +120,7 @@ SanitizeFolderName(user.Identifier)
                     wipe = true;
                 else if (LastUsedVersion > Version)
                 {
-                    var alert = new NSAlert()
+                    var alert = new NSAlert
                     {
                         MessageText = "Purge database?",
                         InformativeText = $"{Settings.BrandingName} found a database associated with this user account, but it was made by a newer version of the database manager (v{LastUsedVersion}) " +

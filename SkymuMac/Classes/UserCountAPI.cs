@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
+using OmegaAOL.Bifrost.Http;
+using OmegaAOL.Bifrost.WebSockets;
 using Skymu.Preferences;
 using System;
 using System.Net.Http;
@@ -20,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
-using OmegaAOL.Bifrost.Engine;
-using OmegaAOL.Bifrost.WebSockets;
 
 namespace Skymu.UserDirectory
 {
@@ -76,7 +76,8 @@ namespace Skymu.UserDirectory
                 username = Settings.Anonymize ? anon_random : user,
                 identifier = Settings.Anonymize ? anon_random : id,
                 plugin = Universal.Plugin.Name,
-                skymu_build_codename = "Mac " + Universal.BUILD_NAME,
+                skymu_variant = "Mac",
+                skymu_build_codename = "(Mac) " + Universal.BUILD_NAME,
                 skymu_build_version = Universal.BUILD_VERSION,
                 token = ApiTkn,
                 online,

@@ -16,7 +16,8 @@ using AppKit;
 
 namespace Skymu
 {
-	public partial class AppDelegate : NSApplicationDelegate
+	[Register ("AppDelegate")]
+	public class AppDelegate : NSApplicationDelegate
 	{
 		public NSWindowController activeWindow;
 

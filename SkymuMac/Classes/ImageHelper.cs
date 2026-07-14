@@ -15,8 +15,7 @@ using System.IO;
 
 namespace Skymu.Helpers
 {
-    class ImageHelper
-
+    public static class ImageHelper
     {
         public static string ResolveExtension(byte[] bytes, string existingName)
         {

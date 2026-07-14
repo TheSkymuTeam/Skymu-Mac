@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EA0D7DA3-7D26-4F84-98DB-C776B30A517A}</ProjectGuid>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <XamMacArch>x86_64</XamMacArch>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace>Matrix</RootNamespace>
+    <AssemblyName>smp.matrix</AssemblyName>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <WarningLevel>4</WarningLevel>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<OutputPath>..\bin\matrix.smp</OutputPath>
+	<LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Microsoft.CSharp" />
+
+	<PackageReference Include="System.Text.Json" Version="10.0.9" />
+	<ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="**\*.cs" />
+    <Compile Remove="obj\**\*.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Target Name="ForceCopyNuGetPackages" AfterTargets="Build">
+    <Copy 
+      SourceFiles="@(ReferencePath)" 
+      Condition="'%(ReferencePath.NuGetSourceType)' == 'Package'" 
+      DestinationFolder="$(OutputPath)" 
+      SkipUnchangedFiles="true" />
+  </Target>
+</Project>

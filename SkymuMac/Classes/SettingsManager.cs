@@ -70,7 +70,7 @@ namespace Skymu.Preferences
         }
         public static string Theme
         {
-            get => SELECT("Theme", "Skype5", "UI/General");
+            get => SELECT("Theme", "S714", "UI/General");
             set => WRITE("Theme", value, nameof(Theme), "UI/General");
         }
         public static string SkippedVersion

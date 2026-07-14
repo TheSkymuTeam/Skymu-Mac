@@ -4,9 +4,11 @@ namespace Skymu
 {
 	public abstract class Colors
 	{
-		public NSColor LoginBackground = NSColor.FromRgb('\x00', '\xaf', '\xf0');
-		public NSColor LoginPlaceholder = NSColor.FromRgb('\x9e', '\xd4', '\xf4');
-		public NSColor SidebarSplitter = NSColor.FromRgb('\xe7', '\xf1', '\xf5');
+		public readonly NSColor LoginBackground = NSColor.FromRgb('\x00', '\xaf', '\xf0');
+		public readonly NSColor LoginFormLine = NSColor.FromRgb('\xb0', '\xDD', '\xF8');
+		public readonly NSColor LoginPlaceholder = NSColor.FromRgb('\x9e', '\xd4', '\xf4');
+		public readonly NSColor SidebarBackground = NSColor.FromRgb('\xf9', '\xfb', '\xfd');
+		public readonly NSColor SidebarSplitter = NSColor.FromRgb('\xe7', '\xf1', '\xf5');
 	}
 	
 	class Light : Colors { }

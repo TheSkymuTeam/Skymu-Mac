@@ -200,7 +200,7 @@ namespace Skymu.ViewModels
             // request the user to publish their details on the public userlist
             if (!Settings.AnonymizeOptOutShown)
             {
-                var alert = new NSAlert()
+                var alert = new NSAlert
                 {
                     MessageText = "Publicly display user statistics?",
                     InformativeText = Settings.BrandingName + " sends information such as your display name and username to its user count server by default. This is done to populate the user "
@@ -247,7 +247,7 @@ namespace Skymu.ViewModels
             return PluginItems[0];
         }
 
-
+        // TODO
         public async Task TryAutoLogin()
         {
 
@@ -321,13 +321,13 @@ namespace Skymu.ViewModels
                         new QRCodeGenerator().CreateQrCode(qr, QRCodeGenerator.ECCLevel.Q)
                     ).GetGraphic(20)))
                     {
-                        var qralert = new NSAlert()
+                        var qralert = new NSAlert
                         {
                             MessageText = "Scan code to authenticate",
                             Icon = new NSImage(NSBundle.MainBundle.PathForResource(
                                 WindowIcons.ErrorIcon,
                                 "png",
-                                "WindowIcons")
+                                Universal.Theme)
                             ),
                             AccessoryView = new NSImageView(new CGRect(0, 0, 250, 250))
                             {
@@ -362,7 +362,7 @@ namespace Skymu.ViewModels
                 return;
             }
 
-            var alert = new NSAlert()
+            var alert = new NSAlert
             {
                 MessageText = "Two-factor authentication required",
                 InformativeText = Universal.Plugin.Name + " has requested that you provide a 2FA code to log in. Please enter it below.",

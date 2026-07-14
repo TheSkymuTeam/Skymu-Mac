@@ -191,9 +191,9 @@ namespace Skymu.Infrastructure.Main
                     // changed this because just clicking AND it being hand cursor... no bro .... so now u hold 2 seconds - TODO: make it show the actual menu, I fuckin knewww it was like that bro
                     // TODO await SoundManager.PlayAsync("BUSY");
                     string url;
-                    Random _random = new Random(); // what is this bro // for the easter egg to decide what video to show
+                    Random _random = new Random();
                     // yeah ts works cs random should have random seed
-                    if (_random.Next(0, 100) < 12) // oh hello im le underscore yeah I change everything and it totally makes sense guys
+                    if (_random.Next(0, 100) < 12)
                         url = Universal.EASTER_CHANTE_SKYPE; // one of the uploads called him ksi bruh are we dead ass ... french ksi wtf......
                     else
                         url = Universal.EASTER_SKYPE_SOUNDS_REMIX;
@@ -218,12 +218,12 @@ namespace Skymu.Infrastructure.Main
         }
 
         private static readonly PresenceStatus[] _indexToStatus = new PresenceStatus[]
-{
+        {
             PresenceStatus.Online,
             PresenceStatus.Away,
             PresenceStatus.DoNotDisturb,
             PresenceStatus.Invisible
-};
+        };
 
         /*
         public static async Task SetStatusFromMenuItems(object sender, ItemCollection items)

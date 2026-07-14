@@ -9,8 +9,8 @@
     <RootNamespace>Skymu</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <AssemblyName>Skymu</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
 
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DebugType>full</DebugType>
@@ -26,6 +26,7 @@
     <DebugSymbols>true</DebugSymbols>
     <LangVersion>7.3</LangVersion>
     <XamMacArch>x86_64</XamMacArch>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -47,13 +48,15 @@
     <LinkMode>SdkOnly</LinkMode>
     <EnableCodeSigning>False</EnableCodeSigning>
   </PropertyGroup>
+  <!-- Some functions to deal with this building hell -->
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-	  <Reference Include="System.Xml" />
-	  <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Xamarin.Mac" />
 
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
@@ -87,7 +90,7 @@
     <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
     <PackageReference Include="QRCoder" Version="1.7.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-	<PackageReference Include="System.Text.Json" Version="10.0.3" />
+    <PackageReference Include="System.Text.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\**\*" />
@@ -98,17 +101,23 @@
     <Compile Include="**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skymu\Yggdrasil\Yggdrasil.csproj">
+    <ProjectReference Include="..\Yggdrasil\Yggdrasil.csproj">
       <Name>Yggdrasil</Name>
     </ProjectReference>
   </ItemGroup>
   <Target Name="CopyPlugins" AfterTargets="Build">
-		<ItemGroup>
-			<PluginFiles Include="..\Skymu\Plugins\bin\**\*.*" />
-		</ItemGroup>
-		<MakeDir Directories="bin\$(Configuration)\Skymu.app\Contents\Plugins\" />
-		<Copy SourceFiles="@(PluginFiles)" DestinationFiles="@(PluginFiles-&gt;'bin\$(Configuration)\Skymu.app\Contents\Plugins\%(RecursiveDir)%(Filename)%(Extension)')" />
-	</Target>
+    <ItemGroup>
+      <PluginFiles Include="..\Plugins\bin\**\*.*" />
+    </ItemGroup>
+    <MakeDir Directories="bin\$(Configuration)\Skymu.app\Contents\Plugins\" />
+    <Copy SourceFiles="@(PluginFiles)" DestinationFiles="@(PluginFiles->'bin\$(Configuration)\Skymu.app\Contents\Plugins\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+  <Target Name="CopyLibs" AfterTargets="Build">
+    <ItemGroup>
+      <LibFiles Include="x64\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LibFiles)" DestinationFiles="@(LibFiles->'bin\$(Configuration)\Skymu.app\Contents\MonoBundle\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets')" />
   <ProjectExtensions>

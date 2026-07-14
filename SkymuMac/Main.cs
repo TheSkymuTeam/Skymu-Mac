@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
-using OmegaAOL.Bifrost.Engine;
+using OmegaAOL.Bifrost.Http;
 using Skymu.Classes;
 using Skymu.Migration;
 using Skymu.Preferences;
@@ -31,6 +31,7 @@ using Yggdrasil.Models;
 using AppKit;
 using CoreGraphics;
 using Foundation;
+using Skymu.Themes.S714;
 
 namespace Skymu
 {
@@ -39,11 +40,14 @@ namespace Skymu
 		static void Main(string[] args)
 		{
 			NSApplication.Init();
+            Debug.WriteLine("[SKYMU] Initialized NSApplication");
+            NSApplication.SharedApplication.Delegate = new AppDelegate();
+            Debug.WriteLine("[SKYMU] Delegate set to our own one");
             NSApplication.Main(args);
 		}
 	}
 
-	public static partial class Universal
+	public static class Universal
 	{
         // -----------------------------------------------------------------------------
         // Skymu metadata.
@@ -109,16 +113,16 @@ namespace Skymu
             string icon = null
         )
         {
-            ActiveViewModel?.Window?.InvokeOnMainThread(() =>
+            NSRunningApplication.CurrentApplication.BeginInvokeOnMainThread(() =>
             {
-                var alert = new NSAlert()
+                var alert = new NSAlert
                 {
                     MessageText = prefix + ((ICore)sender).Name,
                     InformativeText = e.Message,
                     Icon = string.IsNullOrEmpty(icon) ? null : new NSImage(NSBundle.MainBundle.PathForResource(
                         icon,
                         "png",
-                        "WindowIcons")
+                        Theme)
                     ),
                 };
                 alert.AddButton("OK");
@@ -145,10 +149,10 @@ namespace Skymu
                 case DialogType.Information:
                     PluginPopup(sender, e, "Message from plugin ", null);
                     break;
-                case DialogType.Question:
-                    ActiveViewModel?.Window?.InvokeOnMainThread(() =>
+                case DialogType.Choice:
+                    NSRunningApplication.CurrentApplication.BeginInvokeOnMainThread(() =>
                     {
-                        var alert = new NSAlert()
+                        var alert = new NSAlert
                         {
                             MessageText = ((ICore)sender).Name + "requests your choice",
                             InformativeText = e.Message,
@@ -167,7 +171,7 @@ namespace Skymu
 
         public static void PluginNotificationHandler(object sender, MessageBottle e)
         {
-            ActiveViewModel?.Window?.InvokeOnMainThread(
+            NSRunningApplication.CurrentApplication.BeginInvokeOnMainThread(
                 new Action(
                     delegate
                     {
@@ -242,22 +246,23 @@ namespace Skymu
             Timeout = TimeSpan.FromSeconds(10),
         };
 
-        public static void ExceptionHandler(Exception ex)
+        public static void ExceptionHandler(Exception ex, string context = null)
         {
             Debug.WriteLine(ex);
-            var alert = new NSAlert()
+            var alert = new NSAlert
             {
                 MessageText = "That wasn't supposed to happen...",
+                InformativeText = context,
                 Icon = new NSImage(NSBundle.MainBundle.PathForResource(
                     WindowIcons.ErrorIcon,
                     "png",
-                    "WindowIcons")
+                    Theme)
                 ),
                 AccessoryView = new NSTextField(new CGRect(0, 0, 400, 350))
                 {
                     Editable = false,
                     Selectable = true,
-                    BackgroundColor = NSColor.Control,
+                    BackgroundColor = NSColor.ControlBackground,
                     StringValue = ex.Message
                 }
             };
@@ -274,21 +279,21 @@ namespace Skymu
             string icon = null
         )
         {
-            new NSAlert()
+            new NSAlert
             {
                 MessageText = title,
                 InformativeText = content,
                 Icon = string.IsNullOrEmpty(icon) ? null : new NSImage(NSBundle.MainBundle.PathForResource(
                     icon,
                     "png",
-                    "WindowIcons")
+                    Theme)
                 ),
             }.RunModal();
         }
 
         public static void NotImplemented(string feature)
         {
-            new NSAlert()
+            new NSAlert
             {
                 Icon = NSImage.ImageNamed(WindowIcons.WarningIcon),
                 MessageText = "Feature not implemented",
@@ -312,12 +317,12 @@ namespace Skymu
                     case "Colorway":
                     case "Theme":
                     case "UseSystemCulture":
-                        var alert = new NSAlert()
+                        var alert = new NSAlert
                         {
                             Icon = new NSImage(NSBundle.MainBundle.PathForResource(
                                 WindowIcons.WarningIcon,
                                 "png",
-                                "WindowIcons")
+                                Theme)
                             ),
                             AlertStyle = NSAlertStyle.Warning,
                             MessageText = "Restart " + Settings.BrandingName + "?",
@@ -335,6 +340,7 @@ namespace Skymu
             };
         }
 
+        const string NOGOODEXCEPTIONHANDLING = "This exception was inside of AppDomain. Unfortunately, as of now, " + NAME + " will be terminated after pressing OK.";
         static Universal()
         {
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
@@ -343,7 +349,7 @@ namespace Skymu
 
                 if (exception != null)
                 {
-                    ExceptionHandler(exception);
+                    ExceptionHandler(exception, NOGOODEXCEPTIONHANDLING);
                 }
                 else
                 {
@@ -351,15 +357,21 @@ namespace Skymu
                         new Exception(
                             $"{NAME} Exception Handling: CurrentDomain non-exception object thrown of an unknown nature.\n\n"
                                 + e.ToString()
-                        )
+                        ),
+                        NOGOODEXCEPTIONHANDLING
                     );
                 }
             };
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
             {
-                ExceptionHandler(e.Exception);
+                NSRunningApplication.CurrentApplication.BeginInvokeOnMainThread(() =>
+                    ExceptionHandler(e.Exception, "This exception was inside of TaskScheduler. This alert can be safely closed.")
+                );
+                e.SetObserved();
             };
+            
+            SQLitePCL.Batteries_V2.Init();
         }
 
         public static void OpenUrl(string url)

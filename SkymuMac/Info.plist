@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Skymu</string>
 	<key>CFBundleIconFile</key>
-	<string>SkypeBlue.icns</string>
+	<string>SkypeSean.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>app.skymu.SkymuMac</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -30,8 +30,6 @@
 	<string>10.9</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 The Skymu Team</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
