@@ -13,7 +13,7 @@
 		<DebugType>none</DebugType>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="System.Text.Json" Version="10.0.3" />
+		<PackageReference Include="System.Text.Json" Version="10.0.9" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
