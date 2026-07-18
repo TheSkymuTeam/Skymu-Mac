@@ -90,7 +90,7 @@
     <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
     <PackageReference Include="QRCoder" Version="1.7.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-    <PackageReference Include="System.Text.Json" Version="10.0.3" />
+    <PackageReference Include="System.Text.Json" Version="10.0.9" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\**\*" />
