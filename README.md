@@ -14,13 +14,15 @@ Currently, the Skype 7.14 theme is the only available theme.
 
 ### Skymu:Mac Core (Standard .NET with its AppKit binding)
 
+This one can have hot reload.
+
 WARN: This only supports newer macOS (currently 10.15).
 
 CRIT: 
 
 Make sure that [.NET](https://dotnet.microsoft.com/download) is installed.
 
-For MacPorters, `dotnet-sdk-7` is the minimum.
+For MacPorters, `dotnet-sdk-6` is the minimum.
 
 It's as easy as:
 
@@ -34,6 +36,8 @@ First command is responsible for installing the macOS workload.
 Do NOT use the Makefile, besides `clear`. Other commands are for easing the development/testing with msbuild.
 
 ### Skymu:Mac Legacy (Xamarin.Mac)
+
+I don't think that there is a hot reload method for this.
 
 Make sure that [Mono](https://mono-project.com/) and [Xamarin.Mac 6.2.0 or higher?](https://web.archive.org/web/20240720085849if_/https://download.visualstudio.microsoft.com/download/pr/54b422d1-7448-4c23-a8dd-f6db04641531/b83dc3119d4c49f3922ff286128b4874/xamarin.mac-6.2.0.42.pkg) is installed.
 
