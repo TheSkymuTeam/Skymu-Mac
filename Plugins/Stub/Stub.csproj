@@ -1,55 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{847DF9C3-C74A-4B28-946F-FDDA95C55D2F}</ProjectGuid>
-    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <XamMacArch>x86_64</XamMacArch>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <RootNamespace>Stub</RootNamespace>
-    <AssemblyName>smp.stub</AssemblyName>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <WarningLevel>4</WarningLevel>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<OutputPath>..\bin\stub.smp</OutputPath>
-	<LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO" />
-    <Reference Include="System.Linq" />
-    <Reference Include="System.Reflection" />
-    <Reference Include="System.Threading" />
-    <Reference Include="System.Threading.Tasks" />
-    <Reference Include="Microsoft.CSharp" />
-    <PackageReference Include="NLayer.NAudioSupport" Version="1.4.0" />
-    <PackageReference Include="NAudio.Core" Version="2.3.0" />
-    <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
-
-	  <ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs" />
-    <Compile Remove="obj\**\*.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Target Name="ForceCopyNuGetPackages" AfterTargets="Build">
-    <Copy 
-      SourceFiles="@(ReferencePath)" 
-      Condition="'%(ReferencePath.NuGetSourceType)' == 'Package'" 
-      DestinationFolder="$(OutputPath)" 
-      SkipUnchangedFiles="true" />
-  </Target>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>smp.stub</AssemblyName>
+		<AssemblyTitle>Stub</AssemblyTitle>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<FileVersion>1.0.0.0</FileVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<OutputPath>..\bin\stub.smp</OutputPath>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NLayer.NAudioSupport" Version="1.4.0" />
+		<PackageReference Include="System.Threading.Channels" Version="5.0.0" />
+		<PackageReference Include="NAudio.Core" Version="2.3.0" />
+		<PackageReference Include="NAudio.WinMM" Version="2.3.0" />
+	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="WebiWabo.mp3">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

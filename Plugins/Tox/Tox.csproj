@@ -1,56 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69E20601-0682-4A64-BC13-D65BDD71B7BE}</ProjectGuid>
-    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <XamMacArch>x86_64</XamMacArch>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <RootNamespace>Tox</RootNamespace>
-    <AssemblyName>smp.tox</AssemblyName>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <WarningLevel>4</WarningLevel>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<OutputPath>..\bin\tox.smp</OutputPath>
-	<LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-	  <!-- TODO add more references? It compiled for me though... -->
-
-    <PackageReference Include="NAudio.Core" Version="2.3.0" />
-    <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
-    <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
-    <ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs" />
-    <Compile Remove="obj\**\*.cs" />
-  </ItemGroup>
-  <ItemGroup>
-	<None Update="x64\libtox.dylib">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Target Name="ForceCopyNuGetPackages" AfterTargets="Build">
-    <Copy 
-      SourceFiles="@(ReferencePath)" 
-      Condition="'%(ReferencePath.NuGetSourceType)' == 'Package'" 
-      DestinationFolder="$(OutputPath)" 
-      SkipUnchangedFiles="true" />
-  </Target>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<OutputType>Library</OutputType>
+		<AssemblyName>smp.tox</AssemblyName>
+		<AssemblyTitle>Tox</AssemblyTitle>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<LangVersion>7.3</LangVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Prefer32Bit>false</Prefer32Bit>
+		<OutputPath>..\bin\tox.smp</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="NAudio.Core" Version="2.3.0" />
+	  <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
+	  <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj">
+			<Private>False</Private>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="x86\libtox.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="x64\libtox.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

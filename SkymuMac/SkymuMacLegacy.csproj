@@ -95,13 +95,11 @@
   <ItemGroup>
     <BundleResource Include="Resources\**\*" />
     <Compile Remove="obj\**\*.cs" />
-    <InterfaceDefinition Include="**\*.xib" />
-    <InterfaceDefinition Remove="obj\**\*.xib" />
-    <None Include="Info.plist" />
+    <None Include="Legacy\Info.plist" Link="Info.plist" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yggdrasil\Yggdrasil.csproj">
+    <ProjectReference Include="..\Yggdrasil\Yggdrasil-XamarinMac.csproj">
       <Name>Yggdrasil</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,16 +1,18 @@
+#WARNING: This Makefile is only for Skymu:Mac Legacy. Skymu:Mac Core is as easy as `dotnet build`. 
+
 .PHONY: all restore forcerestore min core clean <pluginname>
 
-BUILDER := msbuild # dotnet build is accepted
+BUILDER := msbuild
 
 restore: Yggdrasil/obj/project.assets.json
 
-forcerestore: nuget restore SkymuMac.sln
+forcerestore: nuget restore SkymuMacLegacy.sln
 
 Yggdrasil/obj/project.assets.json:
-	nuget restore SkymuMac.sln
+	nuget restore SkymuMacLegacy.sln
 
 min: restore
-	$(BUILDER) SkymuMac/SkymuMac.csproj
+	$(BUILDER) SkymuMac/SkymuMacLegacy.csproj
 
 core: min Stub
 
@@ -25,4 +27,4 @@ all: restore
 
 .DEFAULT: restore
 	@echo 
-	$(BUILDER) "Plugins/$@/$@.csproj"
+	$(BUILDER) "Plugins/$@/$@-XamarinMac.csproj"

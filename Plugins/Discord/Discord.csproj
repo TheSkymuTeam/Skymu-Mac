@@ -1,59 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{046B161A-D88E-4442-9879-46E989851D05}</ProjectGuid>
-    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <XamMacArch>x86_64</XamMacArch>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <RootNamespace>Discord</RootNamespace>
-    <AssemblyName>smp.discord</AssemblyName>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <WarningLevel>4</WarningLevel>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	  <OutputPath>..\bin\discord.smp</OutputPath>
-	  <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="Microsoft.CSharp" />
-    <!-- TODO add more references? It compiled for me though... -->
-    <!-- Yes, Numberics is imported here, unlike rest of the plugins with the same comment. -->
-
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-    <PackageReference Include="Concentus" Version="2.2.2" />
-    <PackageReference Include="Google.Protobuf" Version="3.34.1" />
-    <PackageReference Include="NAudio.Core" Version="2.3.0" />
-    <PackageReference Include="NAudio.WinMM" Version="2.3.0" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="System.Text.Json" Version="10.0.5" />
-    <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
-    <ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs" />
-    <Compile Remove="obj\**\*.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Target Name="ForceCopyNuGetPackages" AfterTargets="Build">
-    <Copy 
-      SourceFiles="@(ReferencePath)" 
-      Condition="'%(ReferencePath.NuGetSourceType)' == 'Package'" 
-      DestinationFolder="$(OutputPath)" 
-      SkipUnchangedFiles="true" />
-  </Target>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<LangVersion>7.3</LangVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<AssemblyName>smp.discord</AssemblyName>
+		<AssemblyTitle>Discord</AssemblyTitle>
+		<OutputPath>..\bin\discord.smp</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
+		<PackageReference Include="Concentus" Version="2.2.2" />
+		<PackageReference Include="Google.Protobuf" Version="3.34.1" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="NAudio.Core" Version="2.3.0" />
+		<PackageReference Include="NAudio.WinMM" Version="2.3.0" />
+		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="System.Text.Json" Version="10.0.5" />
+		<PackageReference Include="System.Threading.Channels" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Yggdrasil\Yggdrasil.csproj">
+			<Private>False</Private>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="x64\libcrypto-3-x64.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="x64\libdave.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="x86\" />
+	</ItemGroup>
 </Project>

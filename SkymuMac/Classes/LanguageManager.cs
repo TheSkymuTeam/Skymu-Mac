@@ -28,6 +28,7 @@ namespace Skymu
         }
         public string Get(string key)
         {
+            /* TODO
             return key;
             var value = NSBundle.FromPath(
                 Path.Combine(NSBundle.MainBundle.ResourcePath, NSLocale.CurrentLocale.LanguageCode + ".lproj")).LocalizedString(key, key, "Localizable");
@@ -35,6 +36,8 @@ namespace Skymu
             return value
                 .Replace("Skype", Settings.BrandingName)
                 .Replace("skype:", Universal.NAME.ToLowerInvariant() + ":");
+            */
+            return "seg :3";
         }
 
         public string Format(string key, params object[] args)

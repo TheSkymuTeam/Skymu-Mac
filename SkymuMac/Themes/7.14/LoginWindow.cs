@@ -11,6 +11,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
+#if NET5_0_OR_GREATER
+using nfloat = System.Runtime.InteropServices.NFloat;
+using nint = System.IntPtr;
+#endif
+
 using AppKit;
 using CoreGraphics;
 using CoreText;
@@ -297,7 +302,7 @@ namespace Skymu.Themes.S714
             foreach (var p in vm.PluginItems)
             {
                 protocolPopup.AddItem(p.DisplayName);
-                var item = protocolPopup.Items()[protocolPopup.ItemCount - 1];
+                var item = protocolPopup.Items()[(int)protocolPopup.ItemCount - 1];
                 item.Identifier = p.InternalName;
                 item.Tag = (int) p.AuthenticationType;
             }
@@ -309,7 +314,7 @@ namespace Skymu.Themes.S714
                 foreach (var pl in vm.PluginItems)
                 {
                     if (pl.InternalName == protocolPopup.SelectedItem.Identifier &&
-                        (int)pl.AuthenticationType == protocolPopup.SelectedItem.Tag)
+                        (int)pl.AuthenticationType == (int)protocolPopup.SelectedItem.Tag)
                         selectedListing = pl;
                 }
                 vm.SelectedListing = selectedListing;
@@ -543,7 +548,7 @@ namespace Skymu.Themes.S714
             foreach (var pl in vm.PluginItems)
             {
                 if (pl.InternalName == protocolPopup.SelectedItem.Identifier &&
-                    (int)pl.AuthenticationType == protocolPopup.SelectedItem.Tag)
+                    (int)pl.AuthenticationType == (int)protocolPopup.SelectedItem.Tag)
                     selectedListing = pl;
             }
             vm.SelectedListing = selectedListing;

@@ -11,6 +11,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
+#if NET5_0_OR_GREATER
+using nfloat = System.Runtime.InteropServices.NFloat;
+using nint = System.IntPtr;
+#endif
+
 using AppKit;
 using CoreGraphics;
 using Foundation;
@@ -277,7 +282,7 @@ namespace Skymu.Themes.S714
 
 		    public override nint GetChildrenCount(NSOutlineView outlineView, NSObject item)
 		    {
-			    return vm.ContactList?.Count ?? 0;
+			    return (nint)(vm.ContactList?.Count ?? 0);
 		    }
 
 		    public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)

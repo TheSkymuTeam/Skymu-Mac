@@ -120,7 +120,7 @@ namespace Skymu.UserControls
             if (isHovering)
             {
                 var inset = Bounds;//.Inset(1, 1);
-                nfloat radius = inset.Height / 2;
+                var radius = inset.Height / 2;
                 var path = NSBezierPath.FromRoundedRect(inset, radius, radius);
                 path.AddClip();
                 bgColor.SetFill();

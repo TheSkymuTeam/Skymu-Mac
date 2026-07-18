@@ -376,7 +376,12 @@ namespace Skymu
 
         public static void OpenUrl(string url)
         {
-            NSWorkspace.SharedWorkspace.OpenURL(new NSUrl(url), NSWorkspaceLaunchOptions.Async, null, out var err);
+#if !NET5_0_OR_GREATER
+            NSWorkspace.SharedWorkspace.OpenURL( 
+#else
+            NSWorkspace.SharedWorkspace.OpenUrl(
+#endif
+                new NSUrl(url), NSWorkspaceLaunchOptions.Async, null, out var err);
             if (err != null)
                 throw new Exception(err.Description);
         }
