@@ -296,7 +296,8 @@ namespace Skymu.ViewModels
                 Universal.ExceptionHandler(
                     new InvalidOperationException(
                         "Plugin did not return a valid user object to initialize the database."
-                    )
+                    ),
+                    "You will now be logged out."
                 );
                 return;
             }

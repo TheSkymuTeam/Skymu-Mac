@@ -27,7 +27,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.social-networking</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.14</string>
+	<string>10.15</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 The Skymu Team</string>
 	<key>NSPrincipalClass</key>

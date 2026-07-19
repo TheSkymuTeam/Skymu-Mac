@@ -101,7 +101,7 @@ namespace Skymu.Themes.S714
                 {
                     InvokeOnMainThread(() =>
                     {
-                        Universal.ExceptionHandler(ex);
+                        Universal.ExceptionHandler(ex, "This is an unexpected exception happened during a critical process. The app will now close,");
                         NSRunningApplication.CurrentApplication.Terminate();
                     });
                 }
@@ -290,7 +290,7 @@ namespace Skymu.Themes.S714
                 AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
                                    NSViewResizingMask.WidthSizable,
                 Bordered = false,
-                Transparent = true
+                AlphaValue = 0
             };
             protocolSelector.AddSubview(protocolPopup);
             QComp.All(protocolPopup, 1);
@@ -456,8 +456,16 @@ namespace Skymu.Themes.S714
             QCon.Size(loginButton, 130, 35);
 
             // TODO default to Spycord QR if found
-            protocolPopup.SelectItem(7);
-            vm.SelectedListing = vm.PluginItems[7];
+            try
+            {
+                protocolPopup.SelectItem(7);
+                vm.SelectedListing = vm.PluginItems[7];
+            }
+            catch
+            {
+                protocolPopup.SelectItem(0);
+                vm.SelectedListing = vm.PluginItems[0];
+            }
             vm.OpenMainWindow += () => OnOpenMainWindow?.Invoke();
         }
 
@@ -503,7 +511,7 @@ namespace Skymu.Themes.S714
             loginButton.Cell.AttributedTitle = loginMutable;
 
             CheckEnableLoginButton();
-            OnProtocolChanged(null);
+            OnProtocolChanged();
         }
 
         void CheckEnableLoginButton()
@@ -542,7 +550,7 @@ namespace Skymu.Themes.S714
         async void OnLogin(object sender, EventArgs e)
             => await vm.Login(usernameBox.StringValue, passwordBox.StringValue);
 
-        void OnProtocolChanged(NSObject sender)
+        void OnProtocolChanged()
         {
             protocolLabel.StringValue = protocolPopup.SelectedItem.Title;
             foreach (var pl in vm.PluginItems)

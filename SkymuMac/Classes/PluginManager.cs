@@ -65,14 +65,18 @@ namespace Skymu.Plugins
                 {
                     foreach (var loaderEx in ex.LoaderExceptions)
                         Debug.WriteLine(loaderEx);
+                    Debug.WriteLine("[SKYMU] Could not load " + smp);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
+                    Debug.WriteLine("[SKYMU] Could not load " + smp);
                 }
             }
-            
-            return PluginList.ToArray();
+
+            var outa = PluginList.ToArray();
+            Array.Sort(outa, (a, b) => a.Name.CompareTo(b.Name));
+            return outa;
         }
 
         public static void DisposeAll()

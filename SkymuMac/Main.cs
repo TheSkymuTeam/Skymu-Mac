@@ -11,6 +11,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
+using AppKit;
+using CoreGraphics;
+using Foundation;
 using OmegaAOL.Bifrost.Http;
 using Skymu.Classes;
 using Skymu.Migration;
@@ -28,11 +31,6 @@ using Yggdrasil.Bottles;
 using Yggdrasil.Enumerations;
 using Yggdrasil.Models;
 
-using AppKit;
-using CoreGraphics;
-using Foundation;
-using Skymu.Themes.S714;
-
 namespace Skymu
 {
     static class MainClass
@@ -44,8 +42,9 @@ namespace Skymu
             NSApplication.SharedApplication.Delegate = new AppDelegate();
             Debug.WriteLine("[SKYMU] Delegate set to our own one");
             NSApplication.Main(args);
-		}
-	}
+            Debug.WriteLine("[SKYMU] Successful exit!");
+        }
+    }
 
 	public static class Universal
 	{
@@ -62,7 +61,7 @@ namespace Skymu
         // -----------------------------------------------------------------------------
 
         public const string GITHUB_OWNER = "TheSkymuTeam";
-        public const string GITHUB_REPO = "SkymuMac";
+        public const string GITHUB_REPO = "Skymu-Mac";
         public const string DISCORD_SERVER_INVITE = "https://skymu.app/discord";
         public const string SKYMU_WEBSITE_HELP = "https://skymu.app/wiki/about";
         public const string SKYMU_WEBSITE_PRIVACY = "https://skymu.app/legal/privacy";
@@ -81,6 +80,10 @@ namespace Skymu
         // Globally scoped variables.
         // -----------------------------------------------------------------------------
 
+
+        public const string EX_IS_OKAY = "This will NOT close " + NAME + ", or log you out.";
+        public const string EX_IS_BAD = NAME + " will quit after closing this alert.";
+
         public static ICore Plugin;
         public static ICall CallPlugin;
         public static ICore[] PluginList;
@@ -89,6 +92,8 @@ namespace Skymu
         public static string Platform = NSProcessInfo.ProcessInfo.OperatingSystemVersionString;
         public static string NetVersion = RuntimeInformation.FrameworkDescription;
         public static User CurrentUser;
+        public static NSImage GroupAvatar;
+        public static NSImage ContactAvatar;
         public static MainViewModel ActiveViewModel;
         public static LanguageManager Lang = new LanguageManager();
 
@@ -246,7 +251,7 @@ namespace Skymu
             Timeout = TimeSpan.FromSeconds(10),
         };
 
-        public static void ExceptionHandler(Exception ex, string context = null)
+        public static void ExceptionHandler(Exception ex, string context = "This popup was manually invoked. Unless it happened during the initialization, there is a very low chance of this causing a critical action, such as logging you out or exiting the app.")
         {
             Debug.WriteLine(ex);
             var alert = new NSAlert

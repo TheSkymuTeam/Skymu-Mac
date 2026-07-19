@@ -18,17 +18,13 @@ using nint = System.IntPtr;
 
 using AppKit;
 using CoreGraphics;
-using Foundation;
 using Skymu.Preferences;
 using Skymu.Quick;
 using Skymu.UserControls;
 using Skymu.ViewModels;
 using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Skymu.Classes;
-using Yggdrasil.Models;
+using Foundation;
+using Yggdrasil.Enumerations;
 
 // ReSharper disable once CheckNamespace
 namespace Skymu.Themes.S714
@@ -40,30 +36,6 @@ namespace Skymu.Themes.S714
 			Window = new MainWindow();
 		}
 	}
-			/*
-			try
-			{
-				var item = Toolbar.Items.FirstOrDefault(i => i.Identifier == SelfInfoRootView.Identifier);
-                var container = item.View;
-				container.AddSubview(SelfInfoView);
-				container.AddConstraints(new NSLayoutConstraint[] {
-					NSLayoutConstraint.Create(SelfInfoView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, container, NSLayoutAttribute.Top, 1, 0),
-					NSLayoutConstraint.Create(SelfInfoView, NSLayoutAttribute.Leading, NSLayoutRelation.Equal, container, NSLayoutAttribute.Leading, 1, 0),
-					NSLayoutConstraint.Create(SelfInfoView, NSLayoutAttribute.Trailing, NSLayoutRelation.LessThanOrEqual, container, NSLayoutAttribute.Trailing, 1, 0)
-				});
-
-				Sidebar.WantsLayer = true;
-				Sidebar.Layer.BackgroundColor = NSColor.Red.CGColor;
-				MainView.WantsLayer = true;
-				MainView.Layer.BackgroundColor = NSColor.Green.CGColor;
-            }
-            catch (Exception ex)
-			{
-                Debug.WriteLine(ex);
-                Universal.ShowMessage("An error occured initializing the self profile detials. The app will quit.");
-				NSRunningApplication.CurrentApplication.Terminate();
-			}
-			*/
 
     public sealed class MainWindow : NSWindow
     {
@@ -89,6 +61,10 @@ namespace Skymu.Themes.S714
 		        // we already have an alert
 		        return;
 	        Title = Settings.BrandingName + "™ - " + Universal.CurrentUser.DisplayName;
+	        
+	        Universal.GroupAvatar = GenerateAvatarImage("group");
+	        Universal.ContactAvatar = GenerateAvatarImage("contact");
+
 	        var mvc = new MainViewController
 	        {
 		        vm = vm
@@ -97,11 +73,21 @@ namespace Skymu.Themes.S714
 	        Toolbar = mvc.SetupToolbar();
 	        MakeKeyAndOrderFront(this);
         }
+
+	    NSImage GenerateAvatarImage(string what)
+	    {
+		    return new NSImage(NSBundle.MainBundle.PathForResource(
+			    "256-default-" + what,
+			    "png",
+			    Universal.Theme));
+	    }
     }
 
     public sealed class MainViewController : NSViewController
     {
 	    public MainViewModel vm { get; internal set; }
+		SidebarSplitViewController ssvc;
+
         public override void LoadView()
         {
             View = new NSView();
@@ -111,29 +97,55 @@ namespace Skymu.Themes.S714
         internal NSToolbar SetupToolbar()
         {
 	        var bar = new NSToolbar();
-
-	        return bar;
+            return bar;
         }
 
 	    void Setup()
 	    {
-		    View = new SidebarSplitViewController(vm).View;
+			ssvc = new SidebarSplitViewController(this);
+
+            View = ssvc.View;
 	    }
-	    
-	    #region Main split
+
+		public void SelectTab(bool home)
+		{
+			if (home)
+			{
+                if (ssvc.mainView.Subviews.Length != 0)
+                    ssvc.mainView.WillRemoveSubview(ssvc.mainView.Subviews[0]);
+            }
+			else
+			{
+
+                if (ssvc.mainView.Subviews.Length == 0 || !ReferenceEquals(ssvc.conversationViewController.View, ssvc.mainView.Subviews[0]))
+                {
+                    if (ssvc.mainView.Subviews.Length != 0)
+                        ssvc.mainView.WillRemoveSubview(ssvc.mainView.Subviews[0]);
+                    ssvc.mainView.AddSubview(ssvc.conversationViewController.View);
+                    QCon.CAll(ssvc.conversationViewController.View, ssvc.mainView);
+                }
+            }
+		}
 
 	    class SidebarSplitViewController : NSViewController
 	    {
-		    NSView sidebarView;
-		    NSView mainView;
-		    private MainViewModel vm;
+		    NSView split;
+			readonly MainViewController mvc;
+		    readonly MainViewModel vm;
 
-		    public SidebarSplitViewController(MainViewModel vm)
-			    => this.vm = vm;
+		    internal ConversationViewController conversationViewController;
+            internal NSView mainView;
+            NSView sidebarView;
+
+		    public SidebarSplitViewController(MainViewController mvc)
+			{
+				this.mvc = mvc;
+				vm = mvc.vm;
+			}
 		    
 		    public override void LoadView()
 		    {
-			    var split = new SeanSplitter
+			    split = new SeanSplitter
 			    {
 				    TranslatesAutoresizingMaskIntoConstraints = false,
 				    IsVertical = true,
@@ -144,18 +156,36 @@ namespace Skymu.Themes.S714
 			    View = split;
 
 			    sidebarView = CreateSidebarView();
-			    mainView = CreateMainView();
+			    mainView = new NSView
+			    {
+				    TranslatesAutoresizingMaskIntoConstraints = false,
+				    AutoresizesSubviews = true,
+				    WantsLayer = true,
+				    Layer =
+				    {
+					    BackgroundColor = NSColor.ControlBackground.CGColor
+				    }
+			    };
 			    View.AddSubview(sidebarView);
 			    View.AddSubview(mainView);
 
 			    QCon.CVertical(mainView, View);
-			    QCon.Con(mainView, View, NSLayoutAttribute.Right);
 			    QCon.CVertical(sidebarView, View);
 			    QCon.Con(sidebarView, View, NSLayoutAttribute.Left);
-			    QCon.Con(View, sidebarView, mainView, NSLayoutAttribute.Right, NSLayoutAttribute.Left);
+			    QCon.Con(View, mainView, sidebarView, NSLayoutAttribute.Left, NSLayoutAttribute.Right);
+			    QCon.Con(mainView, View, NSLayoutAttribute.Right);
 			    
 			    if (125 > sidebarView.Frame.Width || sidebarView.Frame.Width > 300)
 				    sidebarView.Frame = new CGRect(sidebarView.Frame.X, sidebarView.Frame.Y, 200, sidebarView.Frame.Height);
+
+			    conversationViewController = new ConversationViewController(vm);
+			    conversationViewController.LoadView();
+			    
+			    vm.ConversationOpened += (s, e) =>
+			    {
+					mvc.SelectTab(false);
+				    conversationViewController.SetConversation();
+			    };
 		    }
 
 		    NSView CreateSidebarView()
@@ -170,149 +200,32 @@ namespace Skymu.Themes.S714
 				    }
 			    };
 
-			    var conlist = new ContactListViewController(vm)
+			    var convlist = new ContactListViewController(mvc, ListType.Conversations)
 			    {
 					View = {
-					    TranslatesAutoresizingMaskIntoConstraints = false,
-					    WantsLayer = true
+					    TranslatesAutoresizingMaskIntoConstraints = false
 				    }
 			    };
-			    sidebar.AddSubview(conlist.View);
-			    QCon.Size(conlist.View, 100, 100, NSLayoutRelation.GreaterThanOrEqual);
-			    QCon.CHorizontal(conlist.View, sidebar);
-			    QCon.Con(conlist.View, sidebar, NSLayoutAttribute.Top, 14);
-			    QCon.Con(conlist.View, sidebar, NSLayoutAttribute.Bottom);
+			    sidebar.AddSubview(convlist.View);
+				QCon.Size(convlist.View, 100, 100, NSLayoutRelation.GreaterThanOrEqual);
+			    QCon.CHorizontal(convlist.View, sidebar);
+			    QCon.Con(convlist.View, sidebar, NSLayoutAttribute.Top, 14);
+			    QCon.Con(convlist.View, sidebar, NSLayoutAttribute.Bottom);
 			    
 			    return sidebar;
 		    }
-
-		    NSView CreateMainView()
-		    {
-			    var main = new NSView
-			    {
-				    TranslatesAutoresizingMaskIntoConstraints = false,
-				    WantsLayer = true,
-				    Layer =
-				    {
-					    BackgroundColor = NSColor.ControlBackground.CGColor
-				    }
-			    };
-
-			    var label = new Label("Main content")
-			    {
-				    TranslatesAutoresizingMaskIntoConstraints = false,
-				    Font = NSFont.SystemFontOfSize(18),
-				    Alignment = NSTextAlignment.Center,
-				    WantsLayer = true
-			    };
-			    main.AddSubview(label);
-			    QCon.Width(label, 250, NSLayoutRelation.GreaterThanOrEqual);
-			    QCon.Center(label, main);
-
-			    return main;
-		    }
 	    }
-	    
-	    #endregion
-	    
-	    #region Views/delegates
 
 	    class SplitViewDelegate : NSSplitViewDelegate
 	    {
-			public override bool ShouldAdjustSize(NSSplitView splitView, NSView view)
-				=> !view.Equals(splitView.Subviews[0]);
+		    public override bool ShouldAdjustSize(NSSplitView splitView, NSView view)
+			    => !view.Equals(splitView.Subviews[0]);
 
-			public override nfloat SetMinCoordinateOfSubview(NSSplitView splitView, nfloat proposedMinimumPosition, nint subviewDividerIndex)
-				=> 125;
+		    public override nfloat SetMinCoordinateOfSubview(NSSplitView splitView, nfloat proposedMinimumPosition, nint subviewDividerIndex)
+			    => 125;
 			
-			public override nfloat SetMaxCoordinateOfSubview(NSSplitView splitView, nfloat proposedMaximumPosition, nint subviewDividerIndex)
-				=> 300;
+		    public override nfloat SetMaxCoordinateOfSubview(NSSplitView splitView, nfloat proposedMaximumPosition, nint subviewDividerIndex)
+			    => 300;
 	    }
-	    
-	    public class ContactListViewController : NSViewController
-	    {
-		    NSOutlineView view;
-		    readonly MainViewModel vm;
-
-		    public ContactListViewController(MainViewModel vm) : base()
-			    => this.vm = vm;
-
-		    public override void LoadView()
-		    {
-			    view = new NSOutlineView
-			    {
-					AutoresizesSubviews = true
-			    };
-		
-			    var scrollView = new NSScrollView
-			    {
-				    DocumentView = view,
-				    HasVerticalScroller = true,
-			    };
-
-			    View = scrollView;
-			    
-			    var col = new NSTableColumn("name");
-			    view.AddColumn(col);
-			    
-			    view.DataSource = new ContactTableDataSource(vm);
-			    view.Delegate = new ContactTableDelegate(vm);
-		    }
-	    }
-
-	    public class ContactTableDataSource : NSOutlineViewDataSource
-	    {
-		    private MainViewModel vm;
-
-		    public ContactTableDataSource(MainViewModel vm)
-		    {
-			    this.vm = vm;
-		    }
-
-		    public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
-		    {
-			    return ((IDWrap)item).Metadata is Server;
-		    }
-
-		    public override NSObject GetChild(NSOutlineView outlineView, nint childIndex, NSObject item)
-		    {
-			    var md = vm.ContactList[(int) childIndex];
-			    return new IDWrap(md.Identifier, md);
-		    }
-
-		    public override nint GetChildrenCount(NSOutlineView outlineView, NSObject item)
-		    {
-			    return (nint)(vm.ContactList?.Count ?? 0);
-		    }
-
-		    public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
-		    {
-			    return new NSString(((IDWrap)item).Metadata.DisplayName);
-		    }
-	    }
-
-	    public class ContactTableDelegate : NSOutlineViewDelegate
-	    {
-		    private MainViewModel vm;
-
-		    public ContactTableDelegate(MainViewModel vm)
-		    {
-			    this.vm = vm;
-		    }
-
-		    public override NSView GetView(NSOutlineView tableView, NSTableColumn tableColumn, NSObject item)
-		    {
-			    var wrap = (IDWrap)item;
-			    var dispName = vm.ContactList.FirstOrDefault(e => e.Identifier == wrap.Identifier)?.DisplayName;
-			    if (dispName == null)
-				    return null;
-			    
-			    var view = tableView.MakeView("cell", owner: this) as NSTextField ??
-			               new Label(dispName) { Identifier = "cell" };
-			    return view;
-		    }
-	    }
-	    
-	    #endregion
     }
 }

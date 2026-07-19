@@ -18,12 +18,12 @@ namespace Skymu.Classes
 {
     public class IDWrap : NSObject
     {
-        public readonly string Identifier;
+        public string Identifier
+            => Metadata.Identifier;
         public readonly Metadata Metadata;
 
-        public IDWrap(string identifier, Metadata metadata)
+        public IDWrap(Metadata metadata)
         {
-            Identifier = identifier;
             Metadata = metadata;
         }
     }

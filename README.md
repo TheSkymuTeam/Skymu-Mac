@@ -75,3 +75,9 @@ If a dependency is added, that also must follow the above requirement.
 Due to the above requirement, it is forbidden to push a XIB (Xcode Interface Builder) file. You must make all the user interface inside of the code. Prototyping with XIB tool, and translating it to code with a tool is allowed.
 
 There are two coding style in the project. Please try to use the Skymu:Mac specific one (no `private` modifier, use `=>` whenever you can, etc). This is subject to change, as I'm not sure if Windows Skymu lead dev is happy with my choice or not.
+
+We also try to mimick the original structure for Themes/VERSION/\*.cs files.
+Like for example, we have a useless ConversationView that is just View \>
+SplitView \> two views. There are some exclusions, like globally using
+LoginWindow and MainWindow combo instead of WebLoginWindow and M5Window, and
+potentially more.

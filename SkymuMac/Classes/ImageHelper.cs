@@ -11,7 +11,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*==========================================================*/
 
+using AppKit;
 using System.IO;
+using CoreGraphics;
+using Foundation;
 
 namespace Skymu.Helpers
 {
@@ -54,6 +57,40 @@ namespace Skymu.Helpers
             }
 
             return existingName; // couldn't find proper extension, just save without an extension
+        }
+        
+        public static NSImage GenerateFromArray(byte[] data)
+        {
+            return new NSImage(NSData.FromArray(data));
+        }
+
+        public static NSImage GetAvatar(byte[] bytes, string type = "")
+        {
+            if (bytes != null && bytes.Length > 0)
+                return GenerateFromArray(bytes);
+
+            switch (type)
+            {
+                case "group":
+                    return Universal.GroupAvatar;
+                default:
+                    return Universal.ContactAvatar;
+            }
+        }
+
+        public static NSImage Circle(NSImage orig)
+        {
+            var image = new NSImage(orig.Size);
+            image.LockFocus();
+
+            if (NSGraphicsContext.CurrentContext != null)
+                NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
+            var frame = new CGRect(0, 0, orig.Size.Width, orig.Size.Height);
+            new NSBezierPath().AppendPathWithOvalInRect(frame);
+            orig.Draw(new CGPoint(0, 0), frame, NSCompositingOperation.SourceOver, 1);
+
+            image.UnlockFocus();
+            return image;
         }
     }
 }
