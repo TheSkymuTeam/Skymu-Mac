@@ -14,8 +14,6 @@ Currently, the Skype 7.14 theme is the only available theme.
 
 ### Skymu:Mac Core (Standard .NET with its AppKit binding)
 
-This one can have hot reload.
-
 WARN: This only supports newer macOS (currently 10.15).
 
 CRIT: 
@@ -36,8 +34,6 @@ First command is responsible for installing the macOS workload.
 Do NOT use the Makefile, besides `clear`. Other commands are for easing the development/testing with msbuild.
 
 ### Skymu:Mac Legacy (Xamarin.Mac)
-
-I don't think that there is a hot reload method for this.
 
 Make sure that [Mono](https://mono-project.com/) and [Xamarin.Mac 6.2.0 or higher?](https://web.archive.org/web/20240720085849if_/https://download.visualstudio.microsoft.com/download/pr/54b422d1-7448-4c23-a8dd-f6db04641531/b83dc3119d4c49f3922ff286128b4874/xamarin.mac-6.2.0.42.pkg) is installed.
 
@@ -70,6 +66,8 @@ Note: I am on OSX 10.9. This is likely an issue with this and probably few versi
 
 All code must be compatible and compileable with OS X 10.9. Testing is not required - one of the devs can test it, although please try to spend some effort to make sure that the new code is 10.9 compatible (such as avoiding addArrangedSubview for NSStackView, using the Q helpers instead of accessing Xamarin.Mac APIs directly, especially for constraints, etc)
 
+All files that depends on nint and/or nfloat must have the compatibility shim. We pin our project to C# 7.3 due to potential future legacy constraints, and C# 7.3 did not have nint nor nfloat outside of Xamarin.Mac.
+
 If a dependency is added, that also must follow the above requirement.
 
 Due to the above requirement, it is forbidden to push a XIB (Xcode Interface Builder) file. You must make all the user interface inside of the code. Prototyping with XIB tool, and translating it to code with a tool is allowed.
@@ -81,3 +79,7 @@ Like for example, we have a useless ConversationView that is just View \>
 SplitView \> two views. There are some exclusions, like globally using
 LoginWindow and MainWindow combo instead of WebLoginWindow and M5Window, and
 potentially more.
+
+### Misc dev info
+
+You are likely unable to do any form of hot reload. Sorry!
