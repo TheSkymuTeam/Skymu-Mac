@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Events</key>
+	<dict>
+		<key>ContactRequestReceived</key>
+		<dict>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>4</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Authorisation Request Received</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>Busy</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>6</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Busy </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>CallConnecting</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>2</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Touch Tone Dial Up</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>HoldCall</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>7</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Hold Call</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>ResumeCall</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>8</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Resume Call</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>ContactBecomesUnavailable</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>1</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<false/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Contact Unavailable</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>ContactBecomesAvailable</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>1</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Contact Available</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>ContactsReceived</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>4</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<true/>
+			<key>SoundToPlay</key>
+			<string>Contacts Received </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>HangUp</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>4</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Hangup </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>IncomingCall</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<true/>
+			<key>RepeatSound</key>
+			<true/>
+			<key>SoundToPlay</key>
+			<string>Incoming Call </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>IncomingCallWaiting</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<true/>
+			<key>RepeatSound</key>
+			<true/>
+			<key>SoundToPlay</key>
+			<string>Call Waiting</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>IncomingFileTransfer</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>5</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<true/>
+			<key>SoundToPlay</key>
+			<string>Incoming File Transfer</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>MessageReceived</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>2</integer>
+			<key>Category</key>
+			<integer>3</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Message Received </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>ForegroundMessageReceived</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>3</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<false/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Message Received </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>MessageSent</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>4</integer>
+			<key>Category</key>
+			<integer>3</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Message Sent</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>SignIn</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>0</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Login </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>SignOut</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>0</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<false/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Logout</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>FirstMessageReceived</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>3</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<true/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>First Message Received</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>OutgoingCall</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>3</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>RepeatSound</key>
+			<true/>
+			<key>SoundToPlay</key>
+			<string>Outgoing Call </string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>RemotePartyHungUp</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<false/>
+			<key>IsAlertSound</key>
+			<false/>
+			<key>SortIndex</key>
+			<integer>5</integer>
+			<key>Category</key>
+			<integer>2</integer>
+			<key>Display</key>
+			<false/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Remote Hangup</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>FileTransferCompleted</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>1</integer>
+			<key>Category</key>
+			<integer>5</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>File Transfer Complete</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>FileTransferFailed</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>2</integer>
+			<key>Category</key>
+			<integer>5</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>File Transfer Failed</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>DesktopAPIClientConnected</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>6</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Connection</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+		<key>DesktopAPIClientConnected</key>
+		<dict>
+			<key>EnableVisualNotification</key>
+			<true/>
+			<key>IsAlertSound</key>
+			<true/>
+			<key>SortIndex</key>
+			<integer>0</integer>
+			<key>Category</key>
+			<integer>6</integer>
+			<key>Display</key>
+			<true/>
+			<key>Bounce</key>
+			<false/>
+			<key>PlaySound</key>
+			<true/>
+			<key>RepeatBounce</key>
+			<false/>
+			<key>SoundToPlay</key>
+			<string>Connection</string>
+			<key>Speak</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>Sounds</key>
+	<dict>
+		<key>Item - 1</key>
+		<dict>
+			<key>Name</key>
+			<string>Authorisation Request Received</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_AuthorizationRequestReceived</string>
+		</dict>
+		<key>Item - 2</key>
+		<dict>
+			<key>Name</key>
+			<string>Busy </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_Busy</string>
+		</dict>
+		<key>Item - 3</key>
+		<dict>
+			<key>Name</key>
+			<string>Call Error 1</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_CallError1</string>
+		</dict>
+		<key>Item - 4</key>
+		<dict>
+			<key>Name</key>
+			<string>Call Error 2</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_CallError2</string>
+		</dict>
+		<key>Item - 5</key>
+		<dict>
+			<key>Name</key>
+			<string>Call Waiting</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_CallWaiting</string>
+		</dict>
+		<key>Item - 6</key>
+		<dict>
+			<key>Name</key>
+			<string>Connection</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_Connection</string>
+		</dict>
+		<key>Item - 7</key>
+		<dict>
+			<key>Name</key>
+			<string>Contact Available</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_ContactAvailable</string>
+		</dict>
+		<key>Item - 8</key>
+		<dict>
+			<key>Name</key>
+			<string>Contact Unavailable</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_ContactUnavailable</string>
+		</dict>
+		<key>Item - 9</key>
+		<dict>
+			<key>Name</key>
+			<string>Contacts Received </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_ContactsReceived</string>
+		</dict>
+		<key>Item - 10</key>
+		<dict>
+			<key>Name</key>
+			<string>File Transfer Complete</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_FileTransferComplete</string>
+		</dict>
+		<key>Item - 11</key>
+		<dict>
+			<key>Name</key>
+			<string>File Transfer Failed</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_FileTransferFailed</string>
+		</dict>
+		<key>Item - 12</key>
+		<dict>
+			<key>Name</key>
+			<string>First Message Received</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_FirstMessageReceived</string>
+		</dict>
+		<key>Item - 13</key>
+		<dict>
+			<key>Name</key>
+			<string>Hangup </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_HangUp</string>
+		</dict>
+		<key>Item - 14</key>
+		<dict>
+			<key>Name</key>
+			<string>Hold Call</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_HoldCall</string>
+		</dict>
+		<key>Item - 15</key>
+		<dict>
+			<key>Name</key>
+			<string>Incoming Call </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_IncomingCall</string>
+		</dict>
+		<key>Item - 16</key>
+		<dict>
+			<key>Name</key>
+			<string>Incoming File Transfer</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_IncomingFileTransfer</string>
+		</dict>
+		<key>Item - 17</key>
+		<dict>
+			<key>Name</key>
+			<string>Login </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_Login</string>
+		</dict>
+		<key>Item - 18</key>
+		<dict>
+			<key>Name</key>
+			<string>Logout</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_Logout</string>
+		</dict>
+		<key>Item - 19</key>
+		<dict>
+			<key>Name</key>
+			<string>Message Received </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_MessageReceived</string>
+		</dict>
+		<key>Item - 20</key>
+		<dict>
+			<key>Name</key>
+			<string>Message Sent</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_MessageSent</string>
+		</dict>
+		<key>Item - 21</key>
+		<dict>
+			<key>Name</key>
+			<string>New User</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_NewUser</string>
+		</dict>
+		<key>Item - 22</key>
+		<dict>
+			<key>Name</key>
+			<string>Outgoing Call </string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_OutgoingCall</string>
+		</dict>
+		<key>Item - 23</key>
+		<dict>
+			<key>Name</key>
+			<string>Remote Hangup</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_RemoteHangUp</string>
+		</dict>
+		<key>Item - 24</key>
+		<dict>
+			<key>Name</key>
+			<string>Resume Call</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_ResumeCall</string>
+		</dict>
+		<key>Item - 25</key>
+		<dict>
+			<key>Name</key>
+			<string>Touch Tone Dial Up</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_TouchToneDialUp</string>
+		</dict>
+		<key>Item - 26</key>
+		<dict>
+			<key>Name</key>
+			<string>TripleBeep</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_TripleBeep</string>
+		</dict>
+		<key>Item - 27</key>
+		<dict>
+			<key>Name</key>
+			<string>Voicemail</string>
+			<key>LocalizedKey</key>
+			<string>AlertSoundName_Voicemail</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

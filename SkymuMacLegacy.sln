@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tox", "Plugins\Tox\Tox-Xama
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkymuMac", "SkymuMac\SkymuMacLegacy.csproj", "{BD00BBA7-2C24-4FF4-9519-0AB4B966997A}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MSUI", "MSUI\MSUILegacy.csproj", "{083B5F2B-476D-4F51-A560-1FD3EE1B9935}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{69E20601-0682-4A64-BC13-D65BDD71B7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69E20601-0682-4A64-BC13-D65BDD71B7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69E20601-0682-4A64-BC13-D65BDD71B7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{083B5F2B-476D-4F51-A560-1FD3EE1B9935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{083B5F2B-476D-4F51-A560-1FD3EE1B9935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{083B5F2B-476D-4F51-A560-1FD3EE1B9935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{083B5F2B-476D-4F51-A560-1FD3EE1B9935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D7682AC0-FC18-41FB-8FC2-B999AAD4BD4E} = {757B6748-E0E3-4E21-B728-3F22951DED77}

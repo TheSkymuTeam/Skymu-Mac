@@ -23,7 +23,7 @@ clean:
 	rm -rf Yggdrasil/bin Yggdrasil/obj
 
 all: restore
-	$(BUILDER) SkymuMac.sln
+	$(BUILDER) SkymuMacLegacy.sln
 
 .DEFAULT: restore
 	@echo 

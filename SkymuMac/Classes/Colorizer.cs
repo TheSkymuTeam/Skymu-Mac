@@ -8,6 +8,7 @@ namespace Skymu
 		public readonly NSColor LoginFormLine = NSColor.FromRgb('\xb0', '\xDD', '\xF8');
 		public readonly NSColor LoginPlaceholder = NSColor.FromRgb('\x9e', '\xd4', '\xf4');
 		public readonly NSColor SidebarBackground = NSColor.FromRgb('\xf9', '\xfb', '\xfd');
+		public readonly NSColor SidebarSelected = NSColor.FromRgb('\xcd', '\xef', '\xf8');
 		// TOOD rename me to SplitterDivider
 		public readonly NSColor SidebarSplitter = NSColor.FromRgb('\xe7', '\xf1', '\xf5');
 	}

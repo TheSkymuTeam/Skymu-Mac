@@ -268,7 +268,7 @@ namespace Skymu
                     Editable = false,
                     Selectable = true,
                     BackgroundColor = NSColor.ControlBackground,
-                    StringValue = ex.Message
+                    StringValue = ex.ToString()
                 }
             };
             alert.AddButton("OK");

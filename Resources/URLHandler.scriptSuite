@@ -1,0 +1,19 @@
+// $Id: $
+//
+//  SkypeMac
+//
+//  Created by Mihkel Tammepuu on 02.03.2005.
+//
+//  Copyright (c) 2004-2012 Skype Technologies S.A. All rights reserved.
+
+{
+	Name = URLHandler;
+	AppleEventCode = UrHD;
+	Commands = {
+		GetURL = {
+			CommandClass = "SkypeURIScriptCommand";
+			AppleEventCode = GURL;
+			AppleEventClassCode = GURL;
+		};
+	};
+}

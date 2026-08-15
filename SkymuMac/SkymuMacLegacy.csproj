@@ -28,10 +28,10 @@
     <XamMacArch>x86_64</XamMacArch>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstazts>DEBUG;</DefineConstazts>
     <CreatePackage>false</CreatePackage>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>true</UseSGen>
@@ -39,7 +39,7 @@
     <EnableCodeSigning>False</EnableCodeSigning>
     <LinkMode>None</LinkMode>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <CreatePackage>true</CreatePackage>
@@ -99,6 +99,9 @@
     <Compile Include="**\*.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MSUI\MSUILegacy.csproj">
+      <Name>MSUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yggdrasil\Yggdrasil-XamarinMac.csproj">
       <Name>Yggdrasil</Name>
     </ProjectReference>

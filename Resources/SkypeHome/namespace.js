@@ -1,0 +1,1 @@
+var SH = (typeof SH == "undefined") || !SH ? {} : SH;

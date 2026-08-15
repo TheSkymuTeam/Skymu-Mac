@@ -17,12 +17,14 @@ using nint = System.IntPtr;
 #endif
 
 using AppKit;
+using CoreGraphics;
 using Foundation;
-using Skymu.UserControls;
+using Skymu.Classes;
 using Skymu.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
-using Skymu.Classes;
+using MSUI.Helper.Quick;
 using Yggdrasil.Enumerations;
 using Yggdrasil.Models;
 
@@ -32,9 +34,8 @@ namespace Skymu.Themes.S714
 	class ContactListViewController : NSViewController
 	{
 		readonly ContactTableDataSource ds;
-		private readonly ListType type;
+		readonly ListType type;
 		readonly MainViewController mvc;
-        NSOutlineView view;
         readonly MainViewModel vm;
 
         public ContactListViewController(MainViewController mvc, ListType type)
@@ -47,24 +48,61 @@ namespace Skymu.Themes.S714
 
 	    public override void LoadView()
 	    {
-		    view = new NSOutlineView
+		    View = new NSView
 		    {
-				AutoresizesSubviews = true
+			    TranslatesAutoresizingMaskIntoConstraints = false,
+			    WantsLayer = true,
+			    Layer =
+			    {
+				    BackgroundColor = Colorizer.C.SidebarBackground.CGColor,
+				    BorderColor = NSColor.Green.CGColor,
+				    BorderWidth = 2
+			    }
 		    };
+		    
+		    var cvd = new ContactTableDelegate();
+		    var view = new NSOutlineView
+		    {
+			    TranslatesAutoresizingMaskIntoConstraints = false,
+				AutoresizesSubviews = true,
+				BackgroundColor = NSColor.FromRgba(0, 0, 0, 0),
+				WantsLayer = true,
+				Layer =
+				{
+					BorderColor = NSColor.Blue.CGColor,
+					BorderWidth = 5
+				},
+				DataSource = ds,
+				Delegate = cvd,
+				GridStyleMask = NSTableViewGridStyle.None
+		    };
+		    view.HeaderView = null;
 	
 		    var scrollView = new NSScrollView
 		    {
+			    TranslatesAutoresizingMaskIntoConstraints = false,
 			    DocumentView = view,
 			    HasVerticalScroller = true,
+			    WantsLayer = true,
+			    Layer =
+			    {
+				    BorderColor = NSColor.Red.CGColor,
+				    BorderWidth = 5
+			    }
 		    };
 
-		    View = scrollView;
+		    View.AddSubview(scrollView);
+		    QHug.HAll(view, 500);
+		    QComp.mpAll(view, 1);
+		    QCon.Size(scrollView, 5, 5, NSLayoutRelation.GreaterThanOrEqual); // This is absolutely necessary for the view to work
+		    QCon.CHorizontal(scrollView, View);
+		    QCon.Con(scrollView, View, NSLayoutAttribute.Top, 14);
+		    QCon.Con(scrollView, View, NSLayoutAttribute.Bottom);
 		    
 		    var col = new NSTableColumn("name");
 		    view.AddColumn(col);
 		    
 		    view.DataSource = ds;
-		    var cvd = new ContactTableDelegate();
 		    view.Delegate = cvd;
 		    cvd.ItemSelected += () =>
 		    {
@@ -102,7 +140,7 @@ namespace Skymu.Themes.S714
 					    break;
 				    case ListType.Servers: // todo seg >w<
 					    break;
-				    default: throw new NotImplementedException("no im not doing that :3");
+				    default: return; // fuck
 			    }
 			    vm.SelectedConversation = con;
 			    _ = vm.SetConversation();
@@ -143,7 +181,7 @@ namespace Skymu.Themes.S714
 				? vm.ConversationList.Count
 				: type == ListType.Servers
 				? vm.ServerList.Count
-				: throw new NotImplementedException("so uh, you (as in the programmer, not the user) just tried to make a view of new list before modifying this code? sorry but no im not having that today"));
+				: 0);
 
 	    public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
 			=> new NSString(((IDWrap)item).Metadata.DisplayName);
@@ -152,12 +190,14 @@ namespace Skymu.Themes.S714
 	class ContactTableDelegate : NSOutlineViewDelegate
 	{
 		public event Action ItemSelected;
-	    
-	    public override NSView GetView(NSOutlineView tableView, NSTableColumn tableColumn, NSObject item)
+		NSOutlineView outlineView;
+		
+	    public override NSView GetView(NSOutlineView view, NSTableColumn tableColumn, NSObject item)
 	    {
+		    outlineView = view;
 		    var wrap = (IDWrap)item;
-		    if (!(tableView.DataSource is ContactTableDataSource ds))
-			    throw new Exception("ya forgot to set the delegate!");
+		    if (!(view.DataSource is ContactTableDataSource ds))
+			    throw new Exception("Developer created assigned a ContactTableDelegate to a NSOutlineView without a ContactTableDataSource as the DataSource.");
 		    var dispName =
 				(
 				    ds.vm.ContactList.FirstOrDefault(e => e.Identifier == wrap.Identifier)
@@ -167,15 +207,105 @@ namespace Skymu.Themes.S714
 			    )?.DisplayName;
 		    if (dispName == null)
 			    return null;
-		    
-		    var view = tableView.MakeView("cell", owner: this) as NSTextField ??
-		               new Label(dispName) { Identifier = "cell" };
-		    return view;
+
+		    var cell = view.MakeView("cell", owner: this) as SeanContactCell 
+										?? new SeanContactCell();
+
+		    cell.TextField.StringValue = dispName;
+		    cell.Level = outlineView.LevelForItem(item);
+		    cell.UpdateAppearance(false);
+
+		    return cell;
 	    }
 
 	    public override void SelectionDidChange(NSNotification notification)
 	    {
 		    ItemSelected?.Invoke();
+		    if (outlineView == null)
+		    {
+			    Universal.ExceptionHandler( new Exception(
+				    "Somehow, a different contact list item was selected before a single view was loaded. This should NOT happen."),
+				    Universal.EX_IS_OKAY
+				);
+			    return;
+		    }
+
+		    var selectedIndex = outlineView.SelectedRow;
+		    if (selectedIndex >= 0)
+		    {
+			    Debug.WriteLine(outlineView.Subviews[selectedIndex].GetType());
+			    // todo penis?
+		    }
 	    }
+	}
+	
+	public class SeanContactCell : NSTableCellView
+	{
+		private nint level;
+		private NSBox backgroundBox;
+
+		public nint Level
+		{
+			get => level;
+			set
+			{
+				level = value;
+				LayoutSubtreeIfNeeded();
+			}
+		}
+
+		public override void AwakeFromNib()
+		{
+			base.AwakeFromNib();
+			Construct();
+		}
+
+		public SeanContactCell()
+			=> Construct();
+
+		private void Construct()
+		{
+			// Remove default text field
+			TextField?.RemoveFromSuperview();
+
+			backgroundBox = new NSBox
+			{
+				BoxType = NSBoxType.NSBoxCustom,
+				FillColor = NSColor.FromRgba(0, 0, 0, 0)
+			};
+			AddSubview(backgroundBox);
+
+			TextField = new NSTextField
+			{
+				Bordered = false,
+				Editable = false,
+				DrawsBackground = false,
+				Font = NSFont.SystemFontOfSize(13)
+			};
+			AddSubview(TextField);
+		}
+
+		public void UpdateAppearance(bool selected)
+		{
+			if (selected)
+			{
+				backgroundBox.FillColor = Colorizer.C.SidebarSelected;
+			}
+			else
+			{
+				backgroundBox.FillColor = NSColor.FromRgba(0, 0, 0, 0);
+			}
+		}
+
+		public override void Layout()
+		{
+			base.Layout();
+
+			var bounds = Bounds;
+			var indent = Level * 16f; // Standard indent per level
+
+			backgroundBox.Frame = bounds;
+			TextField.Frame = new CGRect(indent + 18, 2, bounds.Width - indent - 20, bounds.Height - 4);
+		}
 	}
 }

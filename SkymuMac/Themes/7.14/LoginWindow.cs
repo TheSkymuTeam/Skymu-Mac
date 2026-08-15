@@ -21,12 +21,16 @@ using CoreGraphics;
 using CoreText;
 using Foundation;
 using Skymu.Preferences;
-using Skymu.Quick;
 using Skymu.UserControls;
 using Skymu.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using MSUI.Helper;
+using MSUI.Helper.Quick;
+using MSUI.QuickView;
+using MSUI.Stack;
+using Skymu.Helpers;
 using Yggdrasil.Enumerations;
 
 // ReSharper disable once CheckNamespace
@@ -108,7 +112,7 @@ namespace Skymu.Themes.S714
             }).Start();
         }
 
-        async void OpenMainWindow()
+        void OpenMainWindow()
         {
             var mwc = new MainWindowController();
             var mw = (MainWindow)mwc.Window;
@@ -133,34 +137,26 @@ namespace Skymu.Themes.S714
         public override void LoadView()
         {
             View = new NSView();
-            SetupLoading();
-        }
+            View.GetLayer().BackgroundColor = Colorizer.C.LoginBackground.CGColor;
 
-        private void SetupLoading()
-        {
-            View.WantsLayer = true;
-            View.Layer.BackgroundColor = Colorizer.C.LoginBackground.CGColor;
+            new Image(ImageHelper.ThemedImage("loader_30fps", "gif"))
+                {
+                    Animates = true,
+                    CanDrawSubviewsIntoLayer = true,
+                    ImageScaling = NSImageScale.None
+                }
+                .NoTAMIC()
+                .AddTo(View)
+                .Center(View);
 
-            var throbber = new NSImageView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = QImg.ThemedImage("loader_30fps", "gif"),
-                Animates = true,
-                CanDrawSubviewsIntoLayer = true,
-                ImageScaling = NSImageScale.None
-            };
-            View.AddSubview(throbber);
-            QCon.Center(throbber, View);
-
-            var logo = new NSImageView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = QImg.ThemedImage("skype-logo-136x60"),
-                ImageScaling = NSImageScale.None
-            };
-            View.AddSubview(logo);
-            QCon.CenterX(logo, View);
-            QCon.Con(logo, View, NSLayoutAttribute.Top, 40);
+            new Image(ImageHelper.ThemedImage("skype-logo-136x60"))
+                {
+                    ImageScaling = NSImageScale.None
+                }
+                .NoTAMIC()
+                .AddTo(View)
+                .CenterX(View)
+                .Con(View, NSLayoutAttribute.Top, 40);
         }
     }
 
@@ -183,121 +179,244 @@ namespace Skymu.Themes.S714
         NSButton loginButton;
         NSMutableAttributedString loginMutable;
         
-        readonly NSImage disabledBtn =  QImg.ThemedImage("signin-pill-disabled");
-        readonly NSImage enabledBtn = QImg.ThemedImage("signin-pill");
+        readonly NSImage disabledBtn = ImageHelper.ThemedImage("signin-pill-disabled");
+        readonly NSImage enabledBtn  = ImageHelper.ThemedImage("signin-pill");
 
         public override void LoadView()
         {
             View = new NSView();
-            SetupLoading();
-        }
+            View.GetLayer().BackgroundColor = Colorizer.C.LoginBackground.CGColor;
 
-        private void SetupLoading()
-        {
-            View.WantsLayer = true;
-            View.Layer.BackgroundColor = Colorizer.C.LoginBackground.CGColor;
+            // ReSharper disable once ObjectCreationAsStatement
+            new SpacedStack(NSLayoutAttribute.Top,
+                View,
+                (38, new Image(ImageHelper.ThemedImage("ms_logos"))
+                    .NoTAMIC()
+                    .AddTo(View)
+                    .CenterX(View)
+                    .Height(32)
+                    .Hold(GHolder.H)
+                ),
+                (20, new Label("Sign in")
+                    {
+                        Alignment = NSTextAlignment.Center,
+                        Font = NSFont.FromFontName("SegoeUI", 32),
+                        TextColor = NSColor.White,
+                    }
+                    .NoTAMIC()
+                    .AddTo(View)
+                    .CenterX(View)
+                    .Width(6717) // no i do not have a blades
+                ),
+                // two of the 15 GTOE is to make something at least visible when something goes wrong. TODO remove?
+                (0, new Stack(false,
+                    new Label("with")
+                        {
+                            Alignment = NSTextAlignment.Center,
+                            Font = NSFont.FromFontName("SegoeUI", 13),
+                            TextColor = NSColor.White
+                        }
+                        .NoTAMIC(),
+                    new NSView
+                        {
+                            AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                               NSViewResizingMask.WidthSizable
+                        }
+                        .NoTAMIC()
+                        .HAll()
+                        .Width(15, NSLayoutRelation.GreaterThanOrEqual)
+                        .Height(25)
+                        .Hold(GHolder.H)
+                        // Yes, C# supports variable assign in an argument!
+                        .AddAnd(protocolLabel = new Label("Grindr - username and password") // eta
+                            {
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable,
+                                Alignment = NSTextAlignment.Center,
+                                Font = NSFont.FromFontName("SegoeUI", 13),
+                                TextColor = NSColor.White
+                            }
+                            .NoTAMIC()
+                        , view => view
+                            .CenterY(GHolder.H.V)
+                            .Con(GHolder.H.V, NSLayoutAttribute.Left)
+                        )
+                        .AddAnd(new Label("▼")
+                            {
+                                Alignment = NSTextAlignment.Center,
+                                Font = NSFont.FromFontName("SegoeUI", 13),
+                                TextColor = NSColor.White
+                            }
+                            .NoTAMIC()
+                        , view => view
+                            .Con(GHolder.H.V, protocolLabel, NSLayoutAttribute.Left, NSLayoutAttribute.Right, 3)
+                            .Con(GHolder.H.V, NSLayoutAttribute.Right)
+                        )
+                        .AddAnd(protocolPopup = new NSPopUpButton
+                            {
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable,
+                                Bordered = false,
+                                AlphaValue = 0
+                            }
+                            .NoTAMIC()
+                            .mpAll(1)
+                        , view => view
+                            .CenterY(GHolder.H.V)
+                            .Con(GHolder.H.V, NSLayoutAttribute.Left)
+                            .Con(GHolder.H.V, NSLayoutAttribute.Right)
+                            .OnActivated((s, e) =>
+                            {
+                                protocolLabel.StringValue = protocolPopup.SelectedItem.Title;
+                                foreach (var pl in vm.PluginItems)
+                                {
+                                    if (pl.InternalName == protocolPopup.SelectedItem.Identifier &&
+                                        (int)pl.AuthenticationType == (int)protocolPopup.SelectedItem.Tag)
+                                        selectedListing = pl;
+                                }
+                                vm.SelectedListing = selectedListing;
+                            })
+                        )
+                    )
+                    {
+                        AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                           NSViewResizingMask.WidthSizable,
+                        Spacing = 0
+                    }
+                    .NoTAMIC()
+                    .AddTo(View)
+                    .HAll()
+                    .Width(15, NSLayoutRelation.GreaterThanOrEqual)
+                    .Height(25)
+                    .CenterX(View))
+            );
 
-            var logo = new NSImageView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = QImg.ThemedImage("ms_logos")
-            };
-            View.AddSubview(logo);
-            QCon.CenterX(logo, View);
-            QCon.Con(logo, View, NSLayoutAttribute.Top, 38);
-            QCon.Height(logo, 32);
+            var form = new Stack(true, 
+                new NSView
+                    {
+                        AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                           NSViewResizingMask.WidthSizable
+                    }
+                    .NoTAMIC(),
+                    tup => tup.view
+                        .Con(tup.parent, NSLayoutAttribute.Left)
+                        .Con(tup.parent, NSLayoutAttribute.Right)
+                        .Size(280, 36)
+                        .AddAnd(usernameBox = new NSTextField
+                            {
+                                TranslatesAutoresizingMaskIntoConstraints = false,
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable,
+                                Bordered = false,
+                                DrawsBackground = false,
+                                Font = NSFont.FromFontName("SegoeUI-Light", 16),
+                                Cell =
+                                {
+                                    PlaceholderAttributedString = usernameMutable = new NSMutableAttributedString("Skype name, email or phone", new CTStringAttributes
+                                    {
+                                        ForegroundColor = Colorizer.C.LoginPlaceholder.CGColor
+                                    })
+                                },
+                                TextColor = NSColor.White
+                            }
+                                .OnActivated(OnUsernameEnter)
+                                .OnChanged(Typing),
+                            tf => tf
+                                .CenterY(tup.view)
+                                .Con(tup.view, NSLayoutAttribute.Left)
+                                .Con(tup.view, NSLayoutAttribute.Right)
+                        )
+                        .AddAnd(new ColoredLineView
+                            {
+                                TranslatesAutoresizingMaskIntoConstraints = false,
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable | NSViewResizingMask.MaxYMargin,
+                                StrokeColor = Colorizer.C.LoginFormLine
+                            },
+                            cl => cl
+                                .Con(tup.view, NSLayoutAttribute.Left)
+                                .Con(tup.view, NSLayoutAttribute.Right)
+                                .Con(tup.view, NSLayoutAttribute.Bottom)
+                                .Height(1)
+                        ),
+                    new NSView
+                    {
+                        AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                           NSViewResizingMask.WidthSizable
+                    }
+                    .NoTAMIC(),
+                    tup => tup.view
+                        .Con(tup.parent, NSLayoutAttribute.Left)
+                        .Con(tup.parent, NSLayoutAttribute.Right)
+                        .Size(280, 36)
+                        .AddAnd(passwordBox = new NSSecureTextField
+                            {
+                                TranslatesAutoresizingMaskIntoConstraints = false,
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable,
+                                Bordered = false,
+                                DrawsBackground = false,
+                                Font = NSFont.FromFontName("SegoeUI-Light", 16),
+                                Cell =
+                                {
+                                    PlaceholderAttributedString = passwordMutable = new NSMutableAttributedString("Password", new CTStringAttributes
+                                    {
+                                        ForegroundColor = Colorizer.C.LoginPlaceholder.CGColor
+                                    })
+                                },
+                                TextColor = NSColor.White
+                            }
+                                .OnActivated(OnPasswordEnter)
+                                .OnChanged(Typing),
+                            tf => tf
+                                .CenterY(tup.view)
+                                .Con(tup.view, NSLayoutAttribute.Left)
+                                .Con(tup.view, NSLayoutAttribute.Right)
+                        )
+                        .AddAnd(new ColoredLineView
+                            {
+                                TranslatesAutoresizingMaskIntoConstraints = false,
+                                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
+                                                   NSViewResizingMask.WidthSizable | NSViewResizingMask.MaxYMargin,
+                                StrokeColor = Colorizer.C.LoginFormLine
+                            },
+                            cl => cl
+                                .Con(tup.view, NSLayoutAttribute.Left)
+                                .Con(tup.view, NSLayoutAttribute.Right)
+                                .Con(tup.view, NSLayoutAttribute.Bottom)
+                                .Height(1)
+                        )
+                )
+                {
+                    AutoresizingMask = NSViewResizingMask.MinYMargin | NSViewResizingMask.MaxYMargin |
+                                       NSViewResizingMask.HeightSizable,
+                }
+                .NoTAMIC()
+                .AddTo(View)
+                .Center(View)
+                .Width(280);
 
-            var signinHint = new Label("Sign in")
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Alignment = NSTextAlignment.Center,
-                Font = NSFont.FromFontName("SegoeUI", 32),
-                TextColor = NSColor.White,
-            };
-            View.AddSubview(signinHint);
-            QCon.CenterX(signinHint, View);
-            QCon.Width(signinHint, 6717); // no i do not have a blades
-            QCon.Con(View, signinHint, logo, NSLayoutAttribute.Top, NSLayoutAttribute.Bottom, 20);
-
-            var protocolStack = new NSStackView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable,
-                Spacing = 0
-            };
-            View.AddSubview(protocolStack);
-            QHug.All(protocolStack);
-            QCon.CenterX(protocolStack, View);
-            QCon.Con(View, protocolStack, signinHint, NSLayoutAttribute.Top, NSLayoutAttribute.Bottom, 0);
-            QCon.Width(protocolStack, 15,
-                NSLayoutRelation.GreaterThanOrEqual); // in case layout issues occur, it's less confusing
-            QCon.Height(protocolStack, 25);
-
-            var protocolSpace = new Label("")
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false
-            };
-            protocolStack.AddView(protocolSpace, NSStackViewGravity.Center);
-
-            var protocolWith = new Label("with")
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Alignment = NSTextAlignment.Center,
-                Font = NSFont.FromFontName("SegoeUI", 13),
-                TextColor = NSColor.White
-            };
-            protocolStack.AddView(protocolWith, NSStackViewGravity.Center);
-
-            var protocolSelector = new NSView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable
-            };
-            protocolStack.AddView(protocolSelector, NSStackViewGravity.Center);
-            QHug.All(protocolSelector);
-            QCon.Width(protocolSelector, 15, NSLayoutRelation.GreaterThanOrEqual); // another "hey smth is wrong" thing
-            QCon.Height(protocolSelector, 25);
-
-            protocolLabel = new Label("Grindr - username and password") // eta
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable,
-                Alignment = NSTextAlignment.Center,
-                Font = NSFont.FromFontName("SegoeUI", 13),
-                TextColor = NSColor.White
-            };
-            protocolSelector.AddSubview(protocolLabel);
-            QCon.CenterY(protocolLabel, protocolSelector);
-            QCon.Con(protocolLabel, protocolSelector, NSLayoutAttribute.Left);
-
-            var protocolDropLabel = new Label("▼")
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Alignment = NSTextAlignment.Center,
-                Font = NSFont.FromFontName("SegoeUI", 13),
-                TextColor = NSColor.White
-            };
-            protocolSelector.AddSubview(protocolDropLabel);
-            QCon.Con(protocolSelector, protocolLabel, protocolDropLabel, NSLayoutAttribute.Right, NSLayoutAttribute.Left, 3);
-            QCon.Con(protocolDropLabel, protocolSelector, NSLayoutAttribute.Right);
-
-            protocolPopup = new NSPopUpButton
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable,
-                Bordered = false,
-                AlphaValue = 0
-            };
-            protocolSelector.AddSubview(protocolPopup);
-            QComp.All(protocolPopup, 1);
-            QCon.CenterY(protocolPopup, protocolSelector);
-            QCon.Con(protocolPopup, protocolSelector, NSLayoutAttribute.Left);
-            QCon.Con(protocolPopup, protocolSelector, NSLayoutAttribute.Right);
-
+            loginButton = new NSButton
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    Bordered = false,
+                    ImagePosition = NSCellImagePosition.ImageOverlaps,
+                    ImageScaling = NSImageScale.ProportionallyUpOrDown,
+                    AttributedTitle = loginMutable = new NSMutableAttributedString("Sign in", new CTStringAttributes
+                    {
+                        ForegroundColor = NSColor.Gray.CGColor
+                    }).Do(muta => muta.SetAlignment(NSTextAlignment.Center, new NSRange(0, muta.Value.Length))),
+                    Cell =
+                    {
+                        BackgroundColor = NSColor.FromRgba(0, 0, 0, 0)
+                    }
+                }
+                .AddTo(View)
+                .CenterX(View)
+                .Size(130, 35)
+                .Con(View, form, NSLayoutAttribute.Top, 25)
+                .OnActivated(OnLogin);
+            
             protocolPopup.RemoveAllItems();
             foreach (var p in vm.PluginItems)
             {
@@ -306,167 +425,19 @@ namespace Skymu.Themes.S714
                 item.Identifier = p.InternalName;
                 item.Tag = (int) p.AuthenticationType;
             }
-
-            protocolPopup.Activated += (s, e) =>
-            {
-                
-                protocolLabel.StringValue = protocolPopup.SelectedItem.Title;
-                foreach (var pl in vm.PluginItems)
-                {
-                    if (pl.InternalName == protocolPopup.SelectedItem.Identifier &&
-                        (int)pl.AuthenticationType == (int)protocolPopup.SelectedItem.Tag)
-                        selectedListing = pl;
-                }
-                vm.SelectedListing = selectedListing;
-            };
             vm.PluginSelectionUpdated += OnPluginSelectionUpdated;
-
-            var form = new NSStackView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinYMargin | NSViewResizingMask.MaxYMargin |
-                                   NSViewResizingMask.HeightSizable,
-                Orientation = NSUserInterfaceLayoutOrientation.Vertical
-            };
-            View.AddSubview(form);
-            QCon.Center(form, View);
-            QCon.Width(form, 280);
-
-            var unameHolder = new NSView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable
-            };
-            form.AddView(unameHolder, NSStackViewGravity.Top);
-            QCon.Con(unameHolder, form, NSLayoutAttribute.Left);
-            QCon.Con(unameHolder, form, NSLayoutAttribute.Right);
-            QCon.Size(unameHolder, 280, 36);
-
-            usernameMutable = new NSMutableAttributedString("Skype name, email or phone", new CTStringAttributes
-            {
-                ForegroundColor = Colorizer.C.LoginPlaceholder.CGColor
-            });
-            
-            usernameBox = new NSTextField
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable,
-                Bordered = false,
-                DrawsBackground = false,
-                Font = NSFont.FromFontName("SegoeUI-Light", 16),
-                Cell =
-                {
-                    PlaceholderAttributedString = usernameMutable
-                },
-                TextColor = NSColor.White
-            };
-            usernameBox.Changed += Typing;
-            usernameBox.Activated += OnUsernameEnter;
-            unameHolder.AddSubview(usernameBox);
-            QCon.CenterY(usernameBox, unameHolder);
-            QCon.Con(usernameBox, unameHolder, NSLayoutAttribute.Left);
-            QCon.Con(usernameBox, unameHolder, NSLayoutAttribute.Right);
-            
-            var unameLine = new ColoredLineView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable | NSViewResizingMask.MaxYMargin,
-                StrokeColor = Colorizer.C.LoginFormLine
-            };
-            unameHolder.AddSubview(unameLine);
-            QCon.Con(unameLine, unameHolder, NSLayoutAttribute.Left);
-            QCon.Con(unameLine, unameHolder, NSLayoutAttribute.Right);
-            QCon.Con(unameLine, unameHolder, NSLayoutAttribute.Bottom);
-            QCon.Height(unameLine, 1);
-            
-            var passHolder = new NSView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable
-            };
-            form.AddView(passHolder, NSStackViewGravity.Center);
-            QCon.Con(passHolder, form, NSLayoutAttribute.Left);
-            QCon.Con(passHolder, form, NSLayoutAttribute.Right);
-            QCon.Size(passHolder, 280, 36);
-
-            passwordMutable = new NSMutableAttributedString("Password", new CTStringAttributes
-            {
-                ForegroundColor = Colorizer.C.LoginPlaceholder.CGColor
-            });
-
-            passwordBox = new NSTextField
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable,
-                Bordered = false,
-                DrawsBackground = false,
-                Font = NSFont.FromFontName("SegoeUI-Light", 16),
-                Cell =
-                {
-                    PlaceholderAttributedString = passwordMutable
-                },
-                TextColor = NSColor.White
-            };
-            passwordBox.Changed += Typing;
-            passwordBox.Activated += OnPasswordEnter;
-            passHolder.AddSubview(passwordBox);
-            QCon.CenterY(passwordBox, passHolder);
-            QCon.Con(passwordBox, passHolder, NSLayoutAttribute.Left);
-            QCon.Con(passwordBox, passHolder, NSLayoutAttribute.Right);
-            
-            var passLine = new ColoredLineView
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                AutoresizingMask = NSViewResizingMask.MinXMargin | NSViewResizingMask.MaxXMargin |
-                                   NSViewResizingMask.WidthSizable | NSViewResizingMask.MaxYMargin,
-                StrokeColor = Colorizer.C.LoginFormLine
-            };
-            passHolder.AddSubview(passLine);
-            QCon.Con(passLine, passHolder, NSLayoutAttribute.Left);
-            QCon.Con(passLine, passHolder, NSLayoutAttribute.Right);
-            QCon.Con(passLine, passHolder, NSLayoutAttribute.Bottom);
-            QCon.Height(passLine, 1);
-
-            loginMutable = new NSMutableAttributedString("Sign in", new CTStringAttributes
-            {
-                ForegroundColor = NSColor.Gray.CGColor
-            });
-            loginMutable.SetAlignment(NSTextAlignment.Center, new NSRange(0, loginMutable.Value.Length));
-
-            loginButton = new NSButton
-            {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Bordered = false,
-                ImagePosition = NSCellImagePosition.ImageOverlaps,
-                ImageScaling = NSImageScale.ProportionallyUpOrDown,
-                AttributedTitle = loginMutable,
-                Cell =
-                {
-                    BackgroundColor = NSColor.FromRgba(0, 0, 0, 0)
-                }
-            };
-            loginButton.Activated += OnLogin;
-            form.AddView(loginButton, NSStackViewGravity.Bottom);
-            QCon.CenterX(loginButton, form);
-            QCon.Size(loginButton, 130, 35);
-
             // TODO default to Spycord QR if found
-            try
+            if (protocolPopup.ItemCount >= 8)
             {
                 protocolPopup.SelectItem(7);
                 vm.SelectedListing = vm.PluginItems[7];
             }
-            catch
+            else
             {
                 protocolPopup.SelectItem(0);
                 vm.SelectedListing = vm.PluginItems[0];
             }
-            vm.OpenMainWindow += () => OnOpenMainWindow?.Invoke();
+            vm.OpenMainWindow += OnOpenMainWindow;
         }
 
         void Typing(object sender, EventArgs e) =>

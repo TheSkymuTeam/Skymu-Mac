@@ -12,10 +12,13 @@
 /*==========================================================*/
 
 using AppKit;
+using MSUI.Helper;
+using MSUI.Helper.Quick;
+using MSUI.QuickView;
 using Skymu.Helpers;
-using Skymu.Quick;
 using Skymu.UserControls;
 using Skymu.ViewModels;
+using Yggdrasil.Models;
 
 // ReSharper disable once CheckNamespace
 namespace Skymu.Themes.S714
@@ -45,36 +48,41 @@ namespace Skymu.Themes.S714
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 AutoresizesSubviews = true
-            };
-            View.AddSubview(profile);
-            QCon.CAll(profile, View);
+            }
+                .AddTo(View)
+                .CAll(View);
 
             avatar = new NSImageView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = ImageHelper.Circle(Universal.ContactAvatar)
-            };
-            profile.AddSubview(avatar);
-            QCon.Size(avatar, 70, 70);
-            QCon.Con(avatar, profile, NSLayoutAttribute.Top);
-            QCon.Con(avatar, profile, NSLayoutAttribute.Left);
+                Image = Universal.ContactAvatar,
+                WantsLayer = true,
+                Layer =
+                {
+                    CornerRadius = 70 / 2
+                }
+            }
+                .AddTo(profile)
+                .Size(70, 70)
+                .Con(profile, NSLayoutAttribute.Top, 10)
+                .Con(profile, NSLayoutAttribute.Left, 10);
 
             cvTitle = new Label("Skymu Internal")
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 Font = NSFont.SystemFontOfSize(15)
-            };
-            profile.AddSubview(cvTitle);
-            QCon.Con(cvTitle, profile, NSLayoutAttribute.Top);
-            QCon.Con(profile, cvTitle, avatar, NSLayoutAttribute.Left, NSLayoutAttribute.Right);
-            QCon.Con(cvTitle, profile, NSLayoutAttribute.Right);
-            QCon.Width(cvTitle, 15, NSLayoutRelation.GreaterThanOrEqual);
+            }
+                .AddTo(profile)
+                .Con(profile, NSLayoutAttribute.Top, 10)
+                .Con(profile, avatar, NSLayoutAttribute.Left, 10)
+                .Con(profile, NSLayoutAttribute.Right)
+                .Width(15, NSLayoutRelation.GreaterThanOrEqual);
         }
 
         public void SetConversation()
         {
             cvTitle.StringValue = vm.SelectedConversation.DisplayName;
-            avatar.Image = ImageHelper.Circle(ImageHelper.GetAvatar(vm.SelectedConversation.Avatar, "contact"));
+            avatar.Image = ImageHelper.GetAvatar(vm.SelectedConversation.Avatar, vm.SelectedConversation is DirectMessage ? "contact" : "group");
         }
     }
 }

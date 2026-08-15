@@ -19,11 +19,12 @@ using nint = System.IntPtr;
 using AppKit;
 using CoreGraphics;
 using Skymu.Preferences;
-using Skymu.Quick;
 using Skymu.UserControls;
 using Skymu.ViewModels;
 using System;
 using Foundation;
+using MSUI.Helper;
+using MSUI.Helper.Quick;
 using Yggdrasil.Enumerations;
 
 // ReSharper disable once CheckNamespace
@@ -90,8 +91,9 @@ namespace Skymu.Themes.S714
 
         public override void LoadView()
         {
-            View = new NSView();
-	        Setup();
+	        ssvc = new SidebarSplitViewController(this);
+
+	        View = ssvc.View;
         }
 
         internal NSToolbar SetupToolbar()
@@ -99,13 +101,6 @@ namespace Skymu.Themes.S714
 	        var bar = new NSToolbar();
             return bar;
         }
-
-	    void Setup()
-	    {
-			ssvc = new SidebarSplitViewController(this);
-
-            View = ssvc.View;
-	    }
 
 		public void SelectTab(bool home)
 		{
@@ -121,8 +116,9 @@ namespace Skymu.Themes.S714
                 {
                     if (ssvc.mainView.Subviews.Length != 0)
                         ssvc.mainView.WillRemoveSubview(ssvc.mainView.Subviews[0]);
-                    ssvc.mainView.AddSubview(ssvc.conversationViewController.View);
-                    QCon.CAll(ssvc.conversationViewController.View, ssvc.mainView);
+                    ssvc.conversationViewController.View
+	                    .AddTo(ssvc.mainView)
+	                    .CAll(ssvc.mainView);
                 }
             }
 		}
@@ -145,7 +141,7 @@ namespace Skymu.Themes.S714
 		    
 		    public override void LoadView()
 		    {
-			    split = new SeanSplitter
+			    View = split = new SeanSplitter
 			    {
 				    TranslatesAutoresizingMaskIntoConstraints = false,
 				    IsVertical = true,
@@ -153,9 +149,11 @@ namespace Skymu.Themes.S714
 				    AutosaveName = "Sidebar", // TODO: Save per user and shii like original
 				    Delegate = new SplitViewDelegate()
 			    };
-			    View = split;
 
-			    sidebarView = CreateSidebarView();
+			    sidebarView = new ContactListViewController(mvc, ListType.Conversations).View
+				    .AddTo(View)
+				    .CVertical(View)
+				    .Con(View, NSLayoutAttribute.Left);
 			    mainView = new NSView
 			    {
 				    TranslatesAutoresizingMaskIntoConstraints = false,
@@ -165,15 +163,11 @@ namespace Skymu.Themes.S714
 				    {
 					    BackgroundColor = NSColor.ControlBackground.CGColor
 				    }
-			    };
-			    View.AddSubview(sidebarView);
-			    View.AddSubview(mainView);
-
-			    QCon.CVertical(mainView, View);
-			    QCon.CVertical(sidebarView, View);
-			    QCon.Con(sidebarView, View, NSLayoutAttribute.Left);
-			    QCon.Con(View, mainView, sidebarView, NSLayoutAttribute.Left, NSLayoutAttribute.Right);
-			    QCon.Con(mainView, View, NSLayoutAttribute.Right);
+			    }
+				    .AddTo(View)
+				    .CVertical(View)
+				    .Con(View, NSLayoutAttribute.Right)
+				    .Con(View, sidebarView, NSLayoutAttribute.Left);
 			    
 			    if (125 > sidebarView.Frame.Width || sidebarView.Frame.Width > 300)
 				    sidebarView.Frame = new CGRect(sidebarView.Frame.X, sidebarView.Frame.Y, 200, sidebarView.Frame.Height);
@@ -187,33 +181,7 @@ namespace Skymu.Themes.S714
 				    conversationViewController.SetConversation();
 			    };
 		    }
-
-		    NSView CreateSidebarView()
-		    {
-			    var sidebar = new NSView
-			    {
-				    TranslatesAutoresizingMaskIntoConstraints = false,
-				    WantsLayer = true,
-				    Layer =
-				    {
-					    BackgroundColor = Colorizer.C.SidebarBackground.CGColor
-				    }
-			    };
-
-			    var convlist = new ContactListViewController(mvc, ListType.Conversations)
-			    {
-					View = {
-					    TranslatesAutoresizingMaskIntoConstraints = false
-				    }
-			    };
-			    sidebar.AddSubview(convlist.View);
-				QCon.Size(convlist.View, 100, 100, NSLayoutRelation.GreaterThanOrEqual);
-			    QCon.CHorizontal(convlist.View, sidebar);
-			    QCon.Con(convlist.View, sidebar, NSLayoutAttribute.Top, 14);
-			    QCon.Con(convlist.View, sidebar, NSLayoutAttribute.Bottom);
-			    
-			    return sidebar;
-		    }
+		    
 	    }
 
 	    class SplitViewDelegate : NSSplitViewDelegate

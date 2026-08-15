@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Commands</key>
+	<dict>
+		<key>Send</key>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>aCommandString</key>
+				<dict>
+					<key>Description</key>
+					<string>command string</string>
+					<key>Name</key>
+					<string>command</string>
+				</dict>
+				<key>aScriptName</key>
+				<dict>
+					<key>Description</key>
+					<string>name of the script sending the command</string>
+					<key>Name</key>
+					<string>script name</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>Send command string to Skype API</string>
+			<key>Name</key>
+			<string>send</string>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>AppleScript for Skype API</string>
+	<key>Name</key>
+	<string>Skype</string>
+</dict>
+</plist>

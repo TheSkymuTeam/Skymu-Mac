@@ -1,0 +1,12 @@
+PRODUCT: jQuery
+SHORTDESC: Single minified JS file.
+APPROVAL: TPS-5521
+LICENSE_TYPE: T1 - MIT License
+LICENSE_URL: 
+USAGE: Will be shipped with the Skype for Mac client as a plaintext file. Already approved as source code in this Jira ticket: https://jira.skype.net/browse/TPS-47
+
+Re-submitting, as I was required to modify the file.
+DISTRIBUTED: Yes
+HOMEPAGE: code.jquery.com
+SOURCE: http://code.jquery.com/jquery-1.4.2.min.js
+

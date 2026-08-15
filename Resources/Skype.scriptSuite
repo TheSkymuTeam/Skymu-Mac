@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppleEventCode</key>
+	<string>SKYP</string>
+	<key>Commands</key>
+	<dict>
+		<key>Send</key>
+		<dict>
+			<key>AppleEventClassCode</key>
+			<string>send</string>
+			<key>AppleEventCode</key>
+			<string>skyp</string>
+			<key>Arguments</key>
+			<dict>
+				<key>aCommandString</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>cmnd</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+				<key>aScriptName</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>scrp</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+			</dict>
+			<key>CommandClass</key>
+			<string>SkypeCommandScriptCommand</string>
+		</dict>
+	</dict>
+	<key>Name</key>
+	<string>Skype</string>
+	<key>UsedFeatures</key>
+	<array>
+		<string>UnnamedArguments</string>
+	</array>
+</dict>
+</plist>

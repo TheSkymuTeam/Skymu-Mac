@@ -77,20 +77,15 @@ namespace Skymu.Helpers
                     return Universal.ContactAvatar;
             }
         }
-
-        public static NSImage Circle(NSImage orig)
+        
+        
+        public static NSImage ThemedImage(string key, string extension = "png")
         {
-            var image = new NSImage(orig.Size);
-            image.LockFocus();
-
-            if (NSGraphicsContext.CurrentContext != null)
-                NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
-            var frame = new CGRect(0, 0, orig.Size.Width, orig.Size.Height);
-            new NSBezierPath().AppendPathWithOvalInRect(frame);
-            orig.Draw(new CGPoint(0, 0), frame, NSCompositingOperation.SourceOver, 1);
-
-            image.UnlockFocus();
-            return image;
+            return new NSImage(NSBundle.MainBundle.PathForResource(
+                key,
+                extension,
+                Universal.Theme)
+            );
         }
     }
 }
