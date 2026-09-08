@@ -18,9 +18,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x.x
-    - name: Build :fire:
+    - name: Build fire emoji
       run: dotnet build $env:Solution_Name
-    - name: And upload :3
+    - name: And upload colon three
       uses: actions/upload-artifact@v7
       with:
         path: 'SkymuMac/bin/'
