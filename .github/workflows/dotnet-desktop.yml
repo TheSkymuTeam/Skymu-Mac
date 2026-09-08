@@ -16,6 +16,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.x.x
+    - name: Restore the worse macOS workload. Bring. Back. Xamarin.Mac.
+      run: dotnet workload restore SkymuMacCore.sln
     - name: Build fire emoji
       run: dotnet build SkymuMacCore.sln
     - name: And upload colon three
