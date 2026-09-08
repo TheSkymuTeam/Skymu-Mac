@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-26-intel # Praying to the god that this works.. if you see this I think it did.
+    runs-on: macos-15-intel # macOS 26 runners do not include Xamarin.Mac framework needed by setup-xamarin.
     env:
       Solution_Name: SkymuMacLegacy.sln
     steps:
