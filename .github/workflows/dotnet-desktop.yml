@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: macos-26 # 27 is not working according to a tester
-    env:
-      Solution_Name: SkymuMacCore.sln
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -19,7 +17,7 @@ jobs:
       with:
         dotnet-version: 8.x.x
     - name: Build fire emoji
-      run: dotnet build $env:Solution_Name
+      run: dotnet build SkymuMacCore.sln
     - name: And upload colon three
       uses: actions/upload-artifact@v7
       with:
