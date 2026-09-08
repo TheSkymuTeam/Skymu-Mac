@@ -8,12 +8,16 @@ on:
 
 jobs:
   build:
-    runs-on: motherfuckingos
+    runs-on: macos-26-intel # Praying to the god that this works.. if you see this I think it did.
     env:
       Solution_Name: SkymuMacLegacy.sln
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Setup Xamarin
+      uses: maxim-lobanov/setup-xamarin@v1
+      with:
+        xamarin-mac-version: 6
     - name: And upload :3
       uses: actions/upload-artifact@v7
       with:
