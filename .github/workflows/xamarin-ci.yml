@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-26-intel # Praying to the god that this works.. if you see this I think it did.
+    runs-on: macos-15-intel # Old enough for XM, new enough to be alive for at least one year
     env:
       Solution_Name: SkymuMacLegacy.sln
     steps:
