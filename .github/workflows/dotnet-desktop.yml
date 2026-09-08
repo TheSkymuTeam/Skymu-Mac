@@ -1,0 +1,28 @@
+name: Skymu for Mac Core/Modern
+
+on:
+  push:
+    branches: [ "xamarin" ]
+  pull_request:
+    branches: [ "xamarin" ]
+
+jobs:
+  build:
+    runs-on: macos-26 # 27 is not working according to a tester
+    env:
+      Solution_Name: SkymuMacCore.sln
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x.x
+    - name: Build :fire:
+      run: dotnet build $env:Solution_Name
+    - name: And upload :3
+      uses: actions/upload-artifact@v7
+      with:
+        path: 'SkymuMac/bin/'
+        retention-days: 7
+        archive: true
